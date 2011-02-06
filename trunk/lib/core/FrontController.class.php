@@ -56,7 +56,6 @@ class FrontController
 		while ($request) {
 			$request = self::run($request);
 		}
-		
 	}
 	
 	public static function run($request) 
@@ -70,7 +69,7 @@ class FrontController
 		
 		$registry = $front->getRegistry();
 		
-		$registry->request = $request;
+		$registry->oRequest = $request;
 		
 		$front->setRegistry($registry);
 		

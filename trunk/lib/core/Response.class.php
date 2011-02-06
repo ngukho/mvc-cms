@@ -1,24 +1,30 @@
 <?php
-final class Response {
+
+final class Response 
+{
 	private $headers = array(); 
 	private $output;
 	private $level = 0;
 	
-	public function addHeader($header) {
+	public function addHeader($header) 
+	{
 		$this->headers[] = $header;
 	}
 
-	public function redirect($url) {
+	public function redirect($url) 
+	{
 		header('Location: ' . $url);
 		exit;
 	}
 
-	public function setOutput($data, $level = 0) {
-		$this->output = $this->applyLayout($data);;
+	public function setOutput($output, $level = 0) 
+	{
+		$this->output = $output;
 		$this->level = $level;
 	}
 
-	private function compress($data, $level = 0) {
+	private function compress($data, $level = 0) 
+	{
 		if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)) {
 			$encoding = 'gzip';
 		} 
@@ -48,7 +54,8 @@ final class Response {
 		return gzencode($data, (int)$level);
 	}
 
-	public function output() {
+	public function output() 
+	{
 		if ($this->level) {
 			$ouput = $this->compress($this->output, $this->level);
 		} else {
@@ -62,28 +69,6 @@ final class Response {
 		}
 		
 		echo $ouput;
-	}
-	
-	private function applyLayout($data)
-	{
-		$file = DIR_LAYOUT . 'index.tpl';
-    
-		if (file_exists($file)) {
-			extract($data);
-			
-      		ob_start();
-      
-	  		require($file);
-      
-	  		$content = ob_get_contents();
-
-      		ob_end_clean();
-
-      		return $content;
-    	} else {
-      		exit('Error: Could not load template ' . $file . '!');
-    	}		
-		
 	}
 }
 ?>
