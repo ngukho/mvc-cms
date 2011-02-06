@@ -20,10 +20,11 @@ try
 	require __SITE_PATH . '/lib/core/IController.class.php';
 	require __SITE_PATH . '/lib/core/BaseController.class.php';
 	require __SITE_PATH . '/lib/core/Request.class.php';
+	require __SITE_PATH . '/lib/core/Response.class.php';
 	require __SITE_PATH . '/lib/core/View.class.php';
 	require __SITE_PATH . '/lib/core/Registry.class.php';
 	require __SITE_PATH . '/lib/core/Config.class.php';
-	require __SITE_PATH . '/lib/core/DbAbstraction.class.php';
+	require __SITE_PATH . '/lib/core/Model.class.php';
 	require __SITE_PATH . '/lib/core/MvcException.class.php';
 	
 	// Load config files
@@ -138,7 +139,14 @@ try
 	
  	/*** a new registry object ***/
  	$registry = new Registry();
-
+ 	
+	// Response
+	$response = new Response();
+	$response->addHeader('Content-Type: text/html; charset=utf-8');
+	$registry->oResponse = $response; 
+ 	
+	$registry->oConfig = $config; 
+	
 	// Initialize the FrontController
 	$front = FrontController::getInstance();
 	$front->setRegistry($registry);
@@ -151,7 +159,10 @@ try
 	
 	$front->dispatch();
 
-	echo $front->getBody();
+//	echo $front->getBody();
+	
+	// Output
+	$response->output();	
 }
 catch(Exception $e)
 {
