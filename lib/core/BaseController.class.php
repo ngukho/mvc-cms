@@ -2,7 +2,7 @@
 
 abstract class BaseController  implements IController
 {
-	protected $_front , $_module , $_controller , $_action , $_view, $_layout_path=null;
+	protected $_front , $_module , $_controller , $_action , $_view, $_registry , $_layout_path=null;
 
 	public function __construct()
 	{
@@ -32,8 +32,8 @@ abstract class BaseController  implements IController
 	protected function renderView($path)
 	{
 		$this->_view->content = $this->_view->fetch($path);
-		$result = $this->_view->renderLayout($this->_layout_path);			
-		$this->_front->setBody($result);					
+		$result = $this->_view->renderLayout($this->_layout_path);
+		$this->oResponse->setOutput($result, $this->oConfig->config_values['application']['config_compression']);
 	}
 
 }

@@ -23,43 +23,6 @@ final class Request
 		$this->method = $this->lowerCamelcase($this->action).'Action';
 		$this->args = array_merge($this->args,$args); 
 		
-//		print "<pre>";
-//		print_r($moduleDir);
-//		print "</pre>";
-//		
-//		print "<pre>";
-//		print_r($controllerFile);
-//		print "</pre>";
-//
-//		print "<pre>";
-//		print_r($controllerClass);
-//		print "</pre>";
-//
-//		print "<pre>";
-//		print_r($this->method);
-//		print "</pre>";
-//		
-//		print "<pre>";
-//		print_r($this->module);
-//		print "</pre>";
-//		
-//		print "<pre>";
-//		print_r($this->controller);
-//		print "</pre>";
-//		
-//		print "<pre>";
-//		print_r($this->action);
-//		print "</pre>";
-//		
-//		print "<pre>";
-//		print_r($this->args);
-//		print "</pre>";
-//		
-//		print "<pre>";
-//		print_r(__VIEW_PATH . "/" . $this->module . '/' . $this->controller);
-//		print "</pre>";
-//		exit();
-		
 		if(!is_dir($moduleDir))
 		{
 			show_error("Folder not found : {$moduleDir}");
