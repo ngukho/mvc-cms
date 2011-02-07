@@ -28,6 +28,12 @@ class DbConnection
 {
 
 	/**
+	 * Holds an array insance of self
+	 * @var $instance
+	 */
+	private static $instances[] = array();
+
+	/**
 	*
 	* the constructor is set to private so
 	* so nobody can create a new instance using new
@@ -46,27 +52,23 @@ class DbConnection
 	* @access public
 	*
 	*/
-	public static function createInstance($config_name = 'database_master')
+	public static function getInstance($config_name = 'database_master')
 	{
-		$config = Config::getInstance();
-		$db_type = $config->config_values[$config_name]['db_type'];
-		$hostname = $config->config_values[$config_name]['db_hostname'];
-		$dbname = $config->config_values[$config_name]['db_name'];
-		$db_password = $config->config_values[$config_name]['db_password'];
-		$db_username = $config->config_values[$config_name]['db_username'];
-		$db_port = $config->config_values[$config_name]['db_port'];
-
-		try 
+		if (!self::$instances[$config_name])
 		{
+			$config = Config::getInstance();
+			$db_type = $config->config_values[$config_name]['db_type'];
+			$hostname = $config->config_values[$config_name]['db_hostname'];
+			$dbname = $config->config_values[$config_name]['db_name'];
+			$db_password = $config->config_values[$config_name]['db_password'];
+			$db_username = $config->config_values[$config_name]['db_username'];
+			$db_port = $config->config_values[$config_name]['db_port'];
+
 			$pdo = new PDO("$db_type:host=$hostname;port=$db_port;dbname=$dbname", $db_username, $db_password);
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			
-		}catch (PDOException $ex)
-		{
-			show_error('Can not create a Database Connection');
+			self::$instances[$config_name] =  $pdo;
 		}
-
-		return $pdo;
+		return self::$instances[$config_name];
 	}
 
 
@@ -109,7 +111,7 @@ abstract class Model
 	{
 		if(is_null($conn))
 		{
-			$this->_conn = DbConnection::createInstance();
+			$this->_conn = DbConnection::getInstance();
 		}
 		else 
 		{
