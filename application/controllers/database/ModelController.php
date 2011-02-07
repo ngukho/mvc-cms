@@ -12,7 +12,7 @@ Class Database_ModelController Extends BaseController
 	{
 	    $this->_view->title = 'Normal Database MVC';
 	    
-	    $db = DbConnection::createInstance();
+	    $db = DbConnection::getInstance();
 	    
 //	    $db->query("SELECT * FROM customers")->fetch();
 	    
@@ -45,7 +45,7 @@ Class Database_ModelController Extends BaseController
 	
 	public function deleteAction($id)
 	{
-	    $db = DbConnection::createInstance();
+	    $db = DbConnection::getInstance();
 	    $row = $db->query("SELECT * FROM users WHERE user_id = " . $id)->fetch();
 	    if(!empty($row))
 	    {
@@ -62,7 +62,7 @@ Class Database_ModelController Extends BaseController
 		if(!empty($_POST))
 		{
 			$sql = "INSERT INTO users(first_name,last_name,email,address) VALUES('{$_POST['first_name']}','{$_POST['last_name']}','{$_POST['email']}','{$_POST['address']}')";	
-	    	$db = DbConnection::createInstance();
+	    	$db = DbConnection::getInstance();
 	    	$db->query($sql);
 			redirect('database/model/index');
 		}
@@ -72,7 +72,7 @@ Class Database_ModelController Extends BaseController
 	
 	public function editAction($id)
 	{
-		$db = DbConnection::createInstance();
+		$db = DbConnection::getInstance();
 		$this->_view->title = 'Normal Edit Form';
 		$this->_view->link = base_url() . 'database/model/edit/' . $id;
 	    $row = $db->query("SELECT * FROM users WHERE user_id = " . $id)->fetch();
