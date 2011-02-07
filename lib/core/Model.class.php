@@ -2,27 +2,10 @@
 /**
  *
  * @Lite weight Database abstraction layer
- *
- * @copyright Copyright (C) 2009 PHPRO.ORG. All rights reserved.
- *
- * @license new bsd http://www.opensource.org/licenses/bsd-license.php
- * @filesource
- * @package Database
- *
- */
-
-/**
- *
  * @Singleton to create database connection
  *
- * @copyright Copyright (C) 2009 PHPRO.ORG. All rights reserved.
- *
- * @license new bsd http://www.opensource.org/licenses/bsd-license.php
- * @filesource
- * @package Database
  *
  */
-
 
 class DbConnection
 {
@@ -31,7 +14,7 @@ class DbConnection
 	 * Holds an array insance of self
 	 * @var $instance
 	 */
-	private static $instances[] = array();
+	private static $instances = array();
 
 	/**
 	*
@@ -66,7 +49,8 @@ class DbConnection
 
 			$pdo = new PDO("$db_type:host=$hostname;port=$db_port;dbname=$dbname", $db_username, $db_password);
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			self::$instances[$config_name] =  $pdo;
+			
+			self::$instances[$config_name] = $pdo;
 		}
 		return self::$instances[$config_name];
 	}
@@ -91,6 +75,7 @@ abstract class Model
 	protected $_table_name;
 	protected $_primary_key;
 	protected $_conn;
+	protected $_fields = array();
 
 	/*
 	 * @the errors array
@@ -115,8 +100,9 @@ abstract class Model
 		}
 		else 
 		{
-			$this->_conn = $conn;			
+			$this->_conn = $conn;
 		}
+		$this->getTableField();
 	}
 	
 
@@ -182,8 +168,6 @@ abstract class Model
 			// get the primary key name
 			$sql = "DELETE FROM $table WHERE {$this->_primary_key}=:$pk";
 			
-//			$db = Db::getInstance();
-//			$stmt = $db->prepare($sql);
 			$stmt = $this->_conn->prepare($sql);
 			$stmt->bindParam(":$pk", $id);
 			$stmt->execute();
@@ -217,7 +201,6 @@ abstract class Model
 
 		try
 		{
-//			$db = Db::getInstance();
 			foreach( $obj as $field=>$val)
 			{
 				$sql .= "$field = :$field";
@@ -247,8 +230,6 @@ abstract class Model
 	 *
 	 * @access public
 	 * 
-	 * @param string $table The table name
-	 *
 	 * @param int $id
 	 *
 	 */
@@ -265,7 +246,6 @@ abstract class Model
 
 			$obj = new CachingIterator(new ArrayIterator($values));
 
-//			$db = Db::getInstance();
 			$sql = "UPDATE {$this->_table_name} SET \n";
 			foreach( $obj as $field=>$val)
 			{
@@ -404,49 +384,184 @@ abstract class Model
 		$this->sql .= " ORDER BY $fieldname $order";
 	}
 	
-	/**
-	 * @get the name of the field that is the primary key
-	 *
-	 * @access private
-	 *
-	 * @param string $table The name of the table
-	 *
-	 * @return string
-	 *
-	 */
-//	private function getPrimaryKey($table)
-//	{
-//		try
-//		{
-//			// get the db name from the config.ini file
-//			$config = Config::getInstance();
-//			$db_name = $config->config_values['database']['db_name']; 
-//
-//			$db = Db::getInstance();
-//			$sql = "SELECT
-//				k.column_name
-//				FROM
-//				information_schema.table_constraints t
-//				JOIN
-//				information_schema.key_column_usage k
-//				USING(constraint_name,table_schema,table_name)
-//				WHERE
-//				t.constraint_type='PRIMARY KEY'
-//				AND
-//				t.table_schema='{$db_name}'
-//				AND
-//				t.table_name=:table";
-//			$stmt = $db->prepare($sql);
-//			$stmt->bindParam(':table', $table, PDO::PARAM_STR);
-//			$stmt->execute();
-//			
-//			return $stmt->fetchColumn(0);
-//		}
-//		catch(Exception $e)
-//		{
-//			$this->errors[] = $e->getMessage();
-//		}
-//	}
+/*
+   +--------------------------------------------------------------------------
+   |   {Function Name : getRow}
+   |   ========================================
+   |   {Description : get a row}
+   |   ========================================
+   |   {Parameters : (String) $condition, (Array) $params }
+   |   ========================================
+   |   {Return Values : }
+   |   ========================================   
+   |   {Coder : DucBui 12/14/2010 }      
+   +--------------------------------------------------------------------------
+*/    
+	public function getRow($condition,$params = array())
+	{
+		$result = $this->getRowset($condition,$params);
+		if(isset($result[0])) return $result[0];
+		return FALSE;
+	}
+
+/*
+   +--------------------------------------------------------------------------
+   |   {Function Name : getRowset}
+   |   ========================================
+   |   {Description : get a any row}
+   |   ========================================
+   |   {Parameters : (String) $condition, (Array) $params, (String) $order_by, (Int) $start, (Int) $end }
+   |   ========================================
+   |   {Return Values : }
+   |   ========================================   
+   |   {Coder : DucBui 12/14/2010 }      
+   +--------------------------------------------------------------------------
+*/    	
+	public function getRowset($condition = NULL,$params = array(),$order_by = NULL,$start = 0,$end = 0)
+	{
+		$strFields = implode(",",array_keys($this->_fields));
+		$sSql = "SELECT " . $strFields . " FROM " . $this->_table_name;
+		if(!is_null($condition))
+		{
+			$sSql .= " WHERE " . $condition;
+		}		
+		if(!is_null($order_by))
+		{
+			$sSql .= " ORDER BY " . $order_by;
+		}
+		if($end > 0)
+		{
+			$sSql .= " LIMIT {$start},{$end} ";
+		}		
+		
+		$sth = $this->_conn->prepare($sSql);
+		$sth->execute($params);
+		
+//		return $sth->fetchAll(PDO::FETCH_OBJ);
+		return $sth->fetchAll();
+	}
+	
+/*
+   +--------------------------------------------------------------------------
+   |   {Function Name : getTotalRow}
+   |   ========================================
+   |   {Description : get total row}
+   |   ========================================
+   |   {Parameters : (String) $condition, (Array) $params }
+   |   ========================================
+   |   {Return Values : }
+   |   ========================================   
+   |   {Coder : DucBui 12/14/2010 }      
+   +--------------------------------------------------------------------------
+*/
+	public function getTotalRow($condition = NULL,$params = array())
+	{
+		$sSql = "SELECT COUNT(*) AS TotalRow FROM " . $this->_table_name;
+		if(!is_null($condition))
+		{
+			$sSql .= " WHERE " . $condition;
+		}
+		
+		$sth = $this->_conn->prepare($sSql);
+		$sth->execute($params);
+		
+		$result = $sth->fetch(PDO::FETCH_OBJ);
+		return $result->TotalRow;
+	}
+
+/*
+   +--------------------------------------------------------------------------
+   |   {Function Name : compileBinds}
+   |   ========================================
+   |   {Description :}
+   |   ========================================
+   |   {Parameters : (String) $sql, (Array) $binds }
+   |   ========================================
+   |   {Return Values : }
+   |   ========================================   
+   |   {Coder : DucBui 12/14/2010 }      
+   +--------------------------------------------------------------------------
+*/		
+	private function compileBinds($sql, $binds)
+	{
+		if (strpos($sql, '?') === FALSE)
+		{
+			return $sql;
+		}
+		
+		if ( ! is_array($binds))
+		{
+			$binds = array($binds);
+		}
+		
+		// Get the sql segments around the bind markers
+		$segments = explode('?', $sql);
+
+		// The count of bind should be 1 less then the count of segments
+		// If there are more bind arguments trim it down
+		if (count($binds) >= count($segments)) {
+			$binds = array_slice($binds, 0, count($segments)-1);
+		}
+
+		// Construct the binded query
+		$result = $segments[0];
+		$i = 0;
+		foreach ($binds as $bind)
+		{
+			$result .= $this->escape($bind);
+			$result .= $segments[++$i];
+		}
+
+		return $result;
+	}	
+	
+/*
+   +--------------------------------------------------------------------------
+   |   {Function Name : escape}
+   |   ========================================
+   |   {Description : Escapes data based on type, sets boolean and null types}
+   |   ========================================
+   |   {Parameters : (String) $condition, (Array) $params }
+   |   ========================================
+   |   {Return Values : }
+   |   ========================================   
+   |   {Coder : DucBui 12/14/2010 }   
+   +--------------------------------------------------------------------------
+*/	
+	private function escape($str)
+	{
+		if (is_string($str))
+		{
+			if(function_exists(addslashes))
+			{
+				$str = "'".addslashes($str)."'";	
+			}
+			else 
+			{
+				$str = "'".$str."'";				
+			}
+		}
+		elseif (is_bool($str))
+		{
+			$str = ($str === FALSE) ? 0 : 1;
+		}
+		elseif (is_null($str))
+		{
+			$str = 'NULL';
+		}
+
+		return $str;
+	}
+
+	//Set Attribute for Class
+	private function getTableField()
+	{
+		$sQuery = " SHOW FIELDS FROM " . $this->_table_name;
+		$results = $this->_conn->query($sQuery);
+		foreach ($results as $result)
+			$this->_fields[] = $result['Field'];
+	}
+	
 	
 } // end of class
 
