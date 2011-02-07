@@ -27,10 +27,10 @@
 class Db{
 
 	/**
-	 * Holds an insance of self
+	 * Holds an array insance of self
 	 * @var $instance
 	 */
-	private static $instance = NULL;
+	private static $instances[] = array();
 
 	/**
 	*
@@ -51,22 +51,23 @@ class Db{
 	* @access public
 	*
 	*/
-	public static function getInstance()
+	public static function getInstance($config_name = 'database_master')
 	{
-		if (!self::$instance)
+		if (!self::$instances[$config_name])
 		{
 			$config = Config::getInstance();
-			$db_type = $config->config_values['database']['db_type'];
-			$hostname = $config->config_values['database']['db_hostname'];
-			$dbname = $config->config_values['database']['db_name'];
-			$db_password = $config->config_values['database']['db_password'];
-			$db_username = $config->config_values['database']['db_username'];
-			$db_port = $config->config_values['database']['db_port'];
+			$db_type = $config->config_values[$config_name]['db_type'];
+			$hostname = $config->config_values[$config_name]['db_hostname'];
+			$dbname = $config->config_values[$config_name]['db_name'];
+			$db_password = $config->config_values[$config_name]['db_password'];
+			$db_username = $config->config_values[$config_name]['db_username'];
+			$db_port = $config->config_values[$config_name]['db_port'];
 
-			self::$instance = new PDO("$db_type:host=$hostname;port=$db_port;dbname=$dbname", $db_username, $db_password);
-			self::$instance-> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$pdo = new PDO("$db_type:host=$hostname;port=$db_port;dbname=$dbname", $db_username, $db_password);
+			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			self::$instances[$config_name] =  $pdo;
 		}
-		return self::$instance;
+		return self::$instances[$config_name];
 	}
 
 
