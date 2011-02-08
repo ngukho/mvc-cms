@@ -14,6 +14,9 @@ final class Request
 
 	public function __construct($route = NULL, $args = array()) 
 	{
+		$config = Config::getInstance();
+		$display_errors = $config->config_values['application']['display_errors'];
+		
 		$this->parseUri($route);
 		
 		$moduleDir = __APP_PATH . '/controllers/' . $this->module;
@@ -25,7 +28,10 @@ final class Request
 		
 		if(!is_dir($moduleDir))
 		{
-			show_error("Folder not found : {$moduleDir}");
+			if($display_errors)
+				show_error("Module not found : {$moduleDir}");
+			else 				
+				throw new Exception();
 		}
 		
 		if(is_file($controllerFile))
@@ -36,7 +42,10 @@ final class Request
 		}
 		else 
 		{
-			show_error("Folder not found : {$moduleDir}");
+			if($display_errors)
+				show_error("Controller not found : {$controllerFile}");
+			else 				
+				throw new Exception();
 		}
 		
 	}
@@ -123,7 +132,7 @@ final class Request
 	}
 	
 	public function getFileTemplate() {
-		return $this->dir_template  . '/' . $this->method . '.tpl';
+		return $this->dir_template  . '/' . $this->method . '.phtml';
 	}	
 	
 	public function getArgs() {

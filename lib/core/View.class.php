@@ -75,17 +75,6 @@ class View
 		$this->variables[$name] = $value;
 	}
 	
-//	public function getLayout()
-//	{
-//		return $this->layout_file;	
-//	}
-//
-//	public function setLayout($layout_file)
-//	{
-//		$this->layout_file = $layout_file;	
-//	}
-	
-
 	/**
 	 * @Returns names of all the added variables
 	 *
@@ -111,15 +100,14 @@ class View
 	 *
 	 * Fetches the final template output, and echoes it to the browser.
 	 *
-	 * @param string $file Filename (with path) to the template you want to output
+	 * @param string $full_path Filename (with path) to the template you want to output
 	 *
-	 * @param string $id The cache identification number/string of the template you want to fetch
 	 *
 	 * @access public
 	 *
-	 * @return void
+	 * @return string
 	 *
-	 * @see fetch
+	 * @see parser
 	 *
 	 */
 	public function parser($full_path,$args = array())
@@ -131,15 +119,6 @@ class View
 		
 		$output = $this->getOutput($full_path,$args);
 		return isset($output) ? $output : false;		
-	}
-	
-	public function renderAction($controller,$action,$vars = array())
-	{
-		$query_str = "";
-		foreach ($vars as $key=>$value) $query_str .=  "/$key/$value";
-		$url = site_url("$controller/$action" . $query_str);
-		$url = str_replace(" ","%20",$url); 
-		return file_get_contents($url);
 	}
 	
 	public function fetch($path,$args = array()) 
@@ -178,38 +157,6 @@ class View
 	}
 
 	/**
-	 * Fetch the final template output and returns it
-	 *
-	 * @param string $template_file Filename (with path) to the template you want to fetch
-	 *
-	 * @param string $id The cache identification number/string of the template you want to fetch
-	 *
-	 * @access private
-	 *
-	 * @return string Returns a string on success, FALSE on failure
-	 *
-	 * @see display
-	 *
-	 */
-//	public function fetch($template_file)
-//	{
-//		/*** if the template_dir property is set, add it to the filename ***/
-////		if (!empty($this->template_dir))
-////		{
-////			$template_file = realpath($this->template_dir) . '/' . $template_file . '.phtml';
-////		}
-//		
-//		$r = explode('/',$template_file);
-//		
-//		$template_file = realpath(__APP_PATH . "/{$r[0]}/views") . "/{$r[1]}/{$r[2]}.phtml";
-//		
-////		$template_file = realpath(__APP_PATH . $r[0]) . '/' . $template_file . '.phtml';
-//		
-//		$output = $this->getOutput($template_file);
-//		return isset($output) ? $output : false;
-//	}
-
-	/**
 	 *
 	 * Fetch the template output, and return it
 	 *
@@ -224,9 +171,6 @@ class View
 	 */
 	private function getOutput($template_file,$args = array())
 	{
-//		if(!isset($this->variables['_view']))
-//			 $this->variables['_view'] = $this;
-		
 		$args['_view'] = $this;
 		
 		/*** extract all the variables ***/
@@ -245,45 +189,6 @@ class View
 		}
 		return !empty($output) ? $output : false;
 	}
-
-	/**
-	 *
-	 * Sets the template directory
-	 *
-	 * @param string $dir Path to the template dir you want to use
-	 *
-	 * @access public
-	 *
-	 * @return void
-	 *
-	 */
-//	public function setTemplateDir($dir)
-//	{
-//		$template_dir = realpath($dir);
-//		if (is_dir($template_dir))
-//		{
-//			$this->template_dir = $template_dir;
-//		}
-//		else
-//		{
-//			throw new MvcException("The template directory '$dir' does not exist", 200);
-//		}
-//	}
-//	
-//	public function setLayoutDir($dir)
-//	{
-//		$layout_dir = realpath($dir);
-//		if (is_dir($layout_dir))
-//		{
-//			$this->layout_dir = $layout_dir;
-//		}
-//		else
-//		{
-//			throw new MvcException("The layout directory '$dir' does not exist", 200);
-//		}
-//	}	
-
-
 
 } /*** end of class ***/
 
