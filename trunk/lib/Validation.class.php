@@ -59,6 +59,11 @@ class Validation
 	{
 		return $this->$name;
 	}
+	
+	public function hasError()
+	{
+		return (sizeof($this->errors) == 0 ? FALSE : TRUE );
+	}
 
 	/**
 	* Add a rule for a validator
