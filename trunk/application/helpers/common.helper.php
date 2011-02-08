@@ -376,11 +376,12 @@ function _exception_handler($severity, $message, $filepath, $line)
 	 // like "public", "private", etc.) you'll get notices telling
 	 // you that these have been deprecated.
 	
+	 
 	if ($severity == E_STRICT)
 	{
 		return;
 	}
-	
+
 	$error = new MvcException();	
 
 //	$error =& load_class('Exceptions');
@@ -393,6 +394,8 @@ function _exception_handler($severity, $message, $filepath, $line)
 	{
 		$error->show_php_error($severity, $message, $filepath, $line);
 	}
+
+	return TRUE;	
 	
 	// Should we log the error?  No?  We're done...
 //	$config =& get_config();
@@ -404,3 +407,38 @@ function _exception_handler($severity, $message, $filepath, $line)
 //	$error->log_exception($severity, $message, $filepath, $line);
 }
 
+// Error Handler
+//function error_handler($errno, $errstr, $errfile, $errline) {
+//	global $config, $log;
+//	
+//	switch ($errno) {
+//		case E_NOTICE:
+//		case E_USER_NOTICE:
+//			$error = 'Notice';
+//			break;
+//		case E_WARNING:
+//		case E_USER_WARNING:
+//			$error = 'Warning';
+//			break;
+//		case E_ERROR:
+//		case E_USER_ERROR:
+//			$error = 'Fatal Error';
+//			break;
+//		default:
+//			$error = 'Unknown';
+//			break;
+//	}
+//		
+//	if ($config->get('config_error_display')) {
+//		echo '<b>' . $error . '</b>: ' . $errstr . ' in <b>' . $errfile . '</b> on line <b>' . $errline . '</b>';
+//	}
+//	
+//	if ($config->get('config_error_log')) {
+//		$log->write('PHP ' . $error . ':  ' . $errstr . ' in ' . $errfile . ' on line ' . $errline);
+//	}
+//
+//	return TRUE;
+//}
+//
+//// Error Handler
+//set_error_handler('error_handler');
