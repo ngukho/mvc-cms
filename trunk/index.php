@@ -1,11 +1,9 @@
 <?php
-session_start();
 
 try
 {
 	// define the site path __SITE_PATH : c:\xampp\htdocs\adv_mvc
-	$site_path = realpath(dirname(__FILE__));
-	define ('__SITE_PATH', $site_path);
+	define ('__SITE_PATH', realpath(dirname(__FILE__)));
 	
 	// __BASE_URL : /adv_mvc/
  	define ('__BASE_URL', str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
@@ -33,6 +31,7 @@ try
  	/*** include the helper ***/
  	$autoload_helpers = array('common','html');
  	
+ 	/*** registry auto load ***/
 	spl_autoload_register(null, false);
 	spl_autoload_extensions('.php, .class.php, .lang.php, .model.php');
 
@@ -77,6 +76,7 @@ try
 		}			
 	}
 	helperLoader($autoload_helpers);
+	/* ---------------------------------------------------------- */
 	
 	// Load language  
 	$config = Config::getInstance();
@@ -100,45 +100,12 @@ try
 	/*** set error handler level to E_WARNING ***/
 	set_error_handler('_exception_handler', $config->config_values['application']['error_reporting']);
 	
-
-// Error Handler
-//function error_handler($errno, $errstr, $errfile, $errline) {
-//	global $config, $log;
-//	
-//	switch ($errno) {
-//		case E_NOTICE:
-//		case E_USER_NOTICE:
-//			$error = 'Notice';
-//			break;
-//		case E_WARNING:
-//		case E_USER_WARNING:
-//			$error = 'Warning';
-//			break;
-//		case E_ERROR:
-//		case E_USER_ERROR:
-//			$error = 'Fatal Error';
-//			break;
-//		default:
-//			$error = 'Unknown';
-//			break;
-//	}
-//		
-//	if ($config->get('config_error_display')) {
-//		echo '<b>' . $error . '</b>: ' . $errstr . ' in <b>' . $errfile . '</b> on line <b>' . $errline . '</b>';
-//	}
-//	
-//	if ($config->get('config_error_log')) {
-//		$log->write('PHP ' . $error . ':  ' . $errstr . ' in ' . $errfile . ' on line ' . $errline);
-//	}
-//
-//	return TRUE;
-//}
-//
-//// Error Handler
-//set_error_handler('error_handler');
-	
  	/*** a new registry object ***/
  	$registry = new Registry();
+ 	
+ 	// Session
+ 	$oSession = new Session();
+ 	$registry->oSession = $oSession; 
  	
 	// Response
 	$response = new Response();
@@ -158,8 +125,6 @@ try
 	*/
 	
 	$front->dispatch();
-
-//	echo $front->getBody();
 	
 	// Output
 	$response->output();	
@@ -167,7 +132,6 @@ try
 catch(Exception $e)
 {
 	//show a 404 page here
-	echo 'FATAL:<br />';
-	echo $e->getMessage();
-	echo ' : ' . $e->getLine();
+	show_404();
+//	echo 'FATAL:<br />' . $e->getMessage() . ' : ' . $e->getLine();
 }
