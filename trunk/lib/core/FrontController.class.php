@@ -11,7 +11,7 @@
 class FrontController
 {
 
-	protected $_module, $_controller, $_action, $_body, $_view , $_registry;
+	protected $_module, $_controller, $_action, $_view , $_registry;
 	protected $pre_request = array();	
 
 	public static $_instance;
@@ -43,7 +43,8 @@ class FrontController
 		$this->_controller = $request->getController(); 
 		$this->_action = $request->getAction(); 
 		
-		foreach ($this->pre_request as $pre_request) {
+		foreach ($this->pre_request as $pre_request) 
+		{
 			$result = self::run($pre_request);;
 					
 			if ($result) 
@@ -95,15 +96,7 @@ class FrontController
 			show_error("Controller file not found");
 		}
 	}		
-
-	/**
-	*
-	* Gets the controller, sets to default if not available
-	*
-	* @access	public
-	* @return	string	The name of the controller
-	*
-	*/
+	
 	public function getModule()
 	{
 		return $this->_module;
@@ -114,29 +107,11 @@ class FrontController
 		return $this->_controller;
 	}
 
-	/**
-	*
-	* Get the action
-	*
-	* @access	public
-	* @return	string	the Name of the action
-	*
-	*/
 	public function getAction()
 	{
 		return $this->_action;
 	}
 
-	public function getBody()
-	{
-		return $this->_body;
-	}
-
-	public function setBody($body)
-	{
-		$this->_body = $body;
-	}
-	
 	public function getView()
 	{
 		return $this->_view;

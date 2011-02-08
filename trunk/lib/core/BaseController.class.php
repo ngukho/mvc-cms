@@ -2,7 +2,7 @@
 
 abstract class BaseController  implements IController
 {
-	protected $_front , $_module , $_controller , $_action , $_view, $_registry , $_layout_path=null;
+	protected $_front , $_module , $_controller , $_action , $_view, $_registry , $_layout_path = NULL;
 
 	public function __construct()
 	{

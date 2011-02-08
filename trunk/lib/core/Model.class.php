@@ -192,7 +192,7 @@ abstract class Model
 	 * @return int The last insert ID
 	 *
 	 */
-	public function insert($values=null)
+	public function insert($values = NULL)
 	{
 		$values = is_null($values) ? $this->values : $values;
 		$sql = "INSERT INTO {$this->_table_name} SET ";
@@ -233,7 +233,7 @@ abstract class Model
 	 * @param int $id
 	 *
 	 */
-	public function update($id, $values=null)
+	public function update($id,$values = NULL)
 	{
 		$values = is_null($values) ? $this->values : $values;
 		try
@@ -253,8 +253,9 @@ abstract class Model
 				$sql .= $obj->hasNext() ? ',' : '';
 				$sql .= "\n";
 			}
-			$sql .= " WHERE $pk=$id";
-			$stmt = $$this->_conn->prepare($sql);
+			$sql .= " WHERE $pk = $id";
+
+			$stmt = $this->_conn->prepare($sql);
 
 			// bind the params
 			foreach($values as $k=>$v)
@@ -417,27 +418,27 @@ abstract class Model
    |   {Coder : DucBui 12/14/2010 }      
    +--------------------------------------------------------------------------
 */    	
-	public function getRowset($condition = NULL,$params = array(),$order_by = NULL,$start = 0,$end = 0)
+	public function getRowset($condition = NULL,$params = array(),$order_by = NULL,$offset = 0,$limit = 0)
 	{
-		$strFields = implode(",",array_keys($this->_fields));
+		$strFields = implode(",",$this->_fields);
 		$sSql = "SELECT " . $strFields . " FROM " . $this->_table_name;
 		if(!is_null($condition))
 		{
 			$sSql .= " WHERE " . $condition;
-		}		
+		}
 		if(!is_null($order_by))
 		{
 			$sSql .= " ORDER BY " . $order_by;
 		}
-		if($end > 0)
+		if($limit > 0)
 		{
-			$sSql .= " LIMIT {$start},{$end} ";
+			$sSql .= " LIMIT {$offset},{$limit} ";
 		}		
 		
 		$sth = $this->_conn->prepare($sSql);
 		$sth->execute($params);
 		
-//		return $sth->fetchAll(PDO::FETCH_OBJ);
+		// PDO::FETCH_OBJ
 		return $sth->fetchAll();
 	}
 	
