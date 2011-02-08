@@ -7,6 +7,7 @@ class en
 	const __PAGING = 'Paging';
 	const __NORMAL_DATABASE = 'Normal Database';
 	const __MODEL_DATABASE = 'Model Database';
+	const __PDO_MODEL_DATABASE = 'PDO Model Database';	
 	const __ADMIN = 'Admin';
 	const __BLOG = 'Blog';
 	const __CATEGORY = 'Category';
