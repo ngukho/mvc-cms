@@ -1,6 +1,6 @@
 <?php
 
-class Config
+final class Config
 {
 	/*
 	* @var string $config_file
