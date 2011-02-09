@@ -442,3 +442,62 @@ function _exception_handler($severity, $message, $filepath, $line)
 //
 //// Error Handler
 //set_error_handler('error_handler');
+
+function ip_address()
+{
+    static $ip = FALSE;
+    
+    if( $ip ) {
+        return $ip;
+    }
+    //Get IP address - if proxy lets get the REAL IP address
+
+    if (!empty($_SERVER['REMOTE_ADDR']) AND !empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    } elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ip = '0.0.0.0';
+    }
+
+    //Clean the IP and return it
+    return $ip = preg_replace('/[^0-9\.]+/', '', $ip);
+}
+
+/**
+ * Create a fairly random 32 character MD5 token
+ *
+ * @return string
+ */
+
+function token()
+{
+    return md5(str_shuffle(chr(mt_rand(32, 126)). uniqid(). microtime(TRUE)));
+}
+
+/**
+ * Encode a string so it is safe to pass through the URI
+ * @param string $string
+ * @return string
+ */
+
+function base64_url_encode($string = NULL)
+{
+    return strtr(base64_encode($string), '+/=', '-_~');
+}
+
+/**
+ * Decode a string passed through the URI
+ *
+ * @param string $string
+ * @return string
+ */
+
+function base64_url_decode($string = NULL)
+{
+    return base64_decode(strtr($string, '-_~','+/='));
+}
