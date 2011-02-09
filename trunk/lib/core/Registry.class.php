@@ -1,6 +1,6 @@
 <?php
 
-Class Registry {
+class Registry {
 
 	 /*
 	 * @the vars array
