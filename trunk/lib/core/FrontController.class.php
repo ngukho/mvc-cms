@@ -43,6 +43,8 @@ class FrontController
 		$this->_controller = $request->getController(); 
 		$this->_action = $request->getAction(); 
 		
+		$this->_registry->oRequest = $request;
+		
 		foreach ($this->pre_request as $pre_request) 
 		{
 			$result = self::run($pre_request);;
@@ -70,7 +72,7 @@ class FrontController
 		
 		$registry = $front->getRegistry();
 		
-		$registry->oRequest = $request;
+		$registry->oCurrentRequest = $request;
 		
 		$front->setRegistry($registry);
 		
