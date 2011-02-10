@@ -104,8 +104,8 @@ try
  	$registry = new Registry();
  	
  	// Session
- 	$oSession = new Session();
- 	$registry->oSession = $oSession; 
+// 	$oSession = new Session();
+// 	$registry->oSession = $oSession; 
  	
 	// Response
 	$response = new Response();
@@ -131,7 +131,9 @@ try
 }
 catch(Exception $e)
 {
-	//show a 404 page here
-	show_404();
-//	echo 'FATAL:<br />' . $e->getMessage() . ' : ' . $e->getLine();
+	if($config->config_values['application']['display_errors'])
+		show_error($e->getMessage() . ' : ' . $e->getLine());
+	else 				
+		//show a 404 page here
+		show_404();
 }
