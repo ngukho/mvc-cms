@@ -287,8 +287,10 @@ abstract class Model
 	 * @return array
 	 *
 	 */
-	public function query()
+	public function query($sql = NULL)
 	{
+		if(!is_null($sql))
+			$this->sql = $sql;			
 		return $this->_conn->query($this->sql);
 	}
 
