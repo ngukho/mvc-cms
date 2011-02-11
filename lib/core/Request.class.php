@@ -55,7 +55,9 @@ final class Request
 		$config = Config::getInstance();
 		
 		// removes the trailing slash
-		$route = preg_replace("/\/$/", '', $route);
+//		$route = preg_replace("/\/$/", '', $route);
+// 		/this/that/theother/ => this/that/theother
+		$route = trim($route, '/');
 		
 		// get the default uri
 		if(empty($route))
