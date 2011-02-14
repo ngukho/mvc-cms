@@ -3,7 +3,7 @@
  * Exception Class
  *
  */
-class MvcException 
+class MvcException extends Exception 
 {
 	var $action;
 	var $severity;
@@ -27,17 +27,18 @@ class MvcException
 						E_STRICT			=>	'Runtime Notice'
 					);
 
-
 	/**
 	 * Constructor
-	 *
+	 * // Redefine the exception so message isn't optional
 	 */	
-	public function __construct()
+	public function __construct($message = NULL, $code = 0, Exception $previous = null) 
 	{
+        // make sure everything is assigned properly
+        parent::__construct($message, $code, $previous);
 		$this->ob_level = ob_get_level();
 		// Note:  Do not log messages from this constructor.
 	}
-  	
+	
 	// --------------------------------------------------------------------
 
 	/**
