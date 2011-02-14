@@ -129,11 +129,15 @@ try
 	// Output
 	$response->output();	
 }
-catch(Exception $e)
+catch(MvcException $e)
 {
 	if($config->config_values['application']['display_errors'])
-		show_error($e->getMessage() . ' : ' . $e->getLine());
+		show_error($e->getMessage());
 	else 				
 		//show a 404 page here
 		show_404();
+}
+catch(Exception $e)
+{
+	die('FATAL : '.$e->getMessage().' : '.$e->getLine());
 }
