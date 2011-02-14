@@ -82,18 +82,24 @@ class FrontController
 			// if the controller exists and implements IController
 			if( $rc->implementsInterface( 'IController' ) )
 			{
-				$controller = $rc->newInstance();
-				$classMethod = $rc->getMethod($method);			
-				return $classMethod->invokeArgs($controller,$args);
+				try {
+					$controller = $rc->newInstance();
+					$classMethod = $rc->getMethod($method);			
+					return $classMethod->invokeArgs($controller,$args);
+				}
+				catch (ReflectionException $e)
+				{
+					throw new MvcException($e->getMessage());
+				}
 			}
 			else
 			{
-				show_error("Interface iController must be implemented");
+				throw new MvcException("Interface iController must be implemented");
 			}
 		}
 		else 
 		{
-			show_error("Controller file not found");
+			throw new MvcException("Controller file not found");
 		}
 	}		
 	

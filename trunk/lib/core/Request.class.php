@@ -28,10 +28,7 @@ final class Request
 		
 		if(!is_dir($moduleDir))
 		{
-			if($display_errors)
-				show_error("Module not found : {$moduleDir}");
-			else 				
-				throw new Exception();
+			throw new MvcException("Module not found : {$moduleDir}");
 		}
 		
 		if(is_file($controllerFile))
@@ -42,10 +39,7 @@ final class Request
 		}
 		else 
 		{
-			if($display_errors)
-				show_error("Controller not found : {$controllerFile}");
-			else 				
-				throw new Exception();
+			throw new MvcException("Controller not found : {$controllerFile}");
 		}
 		
 	}
