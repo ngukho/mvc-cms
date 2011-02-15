@@ -104,8 +104,8 @@ try
  	$registry = new Registry();
  	
  	// Session
-// 	$oSession = new Session();
-// 	$registry->oSession = $oSession; 
+ 	$oSession = new Session();
+ 	$registry->oSession = $oSession;
  	
 	// Response
 	$response = new Response();
