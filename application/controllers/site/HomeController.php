@@ -23,8 +23,9 @@ class Site_HomeController extends BaseController
 	
 	public function renderAction()
 	{
-		$this->_view->title = 'Day la trang dung chuc nang renderAction';
-		$this->_view->part_render = FrontController::run(new Request('site/home/part-render',array('Title duoc truyen vao')));
+		$this->oSession->userdata['c'] = 2000;
+		$this->_view->title = 'Day la trang dung chuc nang renderAction --- '.$this->oSession->userdata['test'];
+		$this->_view->part_render = FrontController::run(new Request('site/home/part-render',array('Title duoc truyen vao '.$this->oSession->userdata['c'])));
 		$this->renderView('site/home/render');
 	}	
 
