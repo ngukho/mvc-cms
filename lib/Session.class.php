@@ -78,9 +78,6 @@ final class Session
 		//Create a session (or get existing session)
 		$this->create();
 
-		// START SESSION
-		session_start();
-	
 		$this->userdata =& $_SESSION;
 	}
 
@@ -113,6 +110,9 @@ final class Session
 			);
 
 		}
+		
+		// Start the session!
+		session_start();
 
 		//Check the session to make sure it is valid
 		if( ! $this->check()) 
