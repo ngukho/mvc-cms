@@ -20,10 +20,14 @@ final class Session
 	public $match_ip			= FALSE;			//Require user IP to match?
 	public $match_fingerprint	= TRUE;				//Require user agent fingerprint to match?
 	public $match_token			= FALSE;			//Require this token to match?
-	public $session_handler		= NULL;				//Class to use for storage, FALSE for native php . default : 'session_handler_db'
 	public $session_name		= 'site_session';	//What should the session be called?
 	public $session_id			= NULL;				//Specify a custom ID to use instead of default cookie ID
 
+	public $session_database	= FALSE;			//Class to use for storage, FALSE for native php	
+	private $_pdo = NULL;
+	public $table_name	= 'sessions';
+	public $primary_key	= 'session_id';
+	
 	public $cookie_path			= NULL;				//Path to set in session_cookie
 	public $cookie_domain		= NULL;				//The domain to set in session_cookie
 	public $cookie_secure		= NULL;				//Should cookies only be sent over secure connections?
@@ -46,7 +50,7 @@ final class Session
 		//Set the params
 		$config = Config::getInstance();
 		
-		foreach (array('match_ip', 'match_fingerprint', 'match_token', 'session_handler', 'session_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'regenerate', 'expiration') as $key)
+		foreach (array('match_ip', 'match_fingerprint', 'match_token', 'session_name', 'cookie_path', 'cookie_domain', 'cookie_secure', 'cookie_httponly', 'regenerate', 'expiration', 'session_database', 'table_name', 'primary_key') as $key)
 		{
 			$this->$key = (isset($params[$key])) ? $params[$key] : $config->config_values['session'][$key];
 		}		
@@ -89,26 +93,23 @@ final class Session
 	function create() 
 	{
 		//If this was called to destroy a session (only works after session started)
-		$this->destroy();
+		$this->clear();
 
 		//If there is a class to handle CRUD of the sessions
-		if($this->session_handler) 
+		if($this->session_database) 
 		{
-
-			//Load the session handler class
-			$rc = new ReflectionClass($this->session_handler);
-			$handler = $rc->newInstance(array('expiration' =>  $this->expiration));
-
 			// Register non-native driver as the session handler
-			session_set_save_handler (
-				array($handler, 'open'),
-				array($handler, 'close'),
-				array($handler, 'read'),
-				array($handler, 'write'),
-				array($handler, 'destroy'),
-				array($handler, 'gc')
-			);
-
+	        session_set_save_handler( 
+	            array( &$this, "open" ), 
+	            array( &$this, "close" ),
+	            array( &$this, "read" ),
+	            array( &$this, "write"),
+	            array( &$this, "destroy"),
+	            array( &$this, "gc" )
+	        );
+	        
+			// Create connect to database	        
+	        $this->_pdo = DbConnection::getInstance();
 		}
 		
 		// Start the session!
@@ -188,13 +189,10 @@ final class Session
 	 * Destroys the current session and user agent cookie
 	 * @return  void
 	 */
-	public function destroy() 
+	function clear() 
 	{
 		//If there is no session to delete (not started)
-		if (session_id() === '') 
-		{
-			return;
-		}
+		if (session_id() === '') return;
 
 		// Get the session name
 		$name = session_name();
@@ -234,44 +232,10 @@ final class Session
 	}
 
 
-}
-
-
-/**
- * Default session handler for storing sessions in the database. Can use
- * any type of database from SQLite to MySQL. If you wish to use your own
- * class instead of this one please set session::$session_handler to
- * the name of your class (see session class). If you wish to use memcache
- * then then set the session::$session_handler to FALSE and configure the
- * settings shown in http://php.net/manual/en/memcache.examples-overview.php
- */
-class session_handler_db {
-
-	//Store the starting session ID so we can check against current id at close
-	public $session_id		= NULL;
+	/**
+ 	* Default session handler for storing sessions in the database.
+ 	**/ 
 	
-	// How long are sessions good?
-	public $expiration		= NULL;
-	
-	protected $table_name = NULL;
-	protected $primary_key = NULL;
-	
-	private $_pdo = NULL;
-	
-	public function __construct($params)
-	{
-		$config = Config::getInstance();
-			
-		foreach (array('table_name', 'primary_key', 'expiration') as $key)
-		{
-			$this->$key = (isset($params[$key])) ? $params[$key] : $config->config_values['session_handler_db'][$key];
-		}		
-			
-		// Create connect to master databse			
-		$this->_pdo = DbConnection::getInstance();
-	}	
-	
-
 	/**
 	 * Record the current sesion_id for later
 	 * @return boolean
@@ -311,7 +275,6 @@ class session_handler_db {
 
 		return '';
 	}
-
 
 	/**
 	 * Attempt to create or update a session in the database.
@@ -354,7 +317,6 @@ class session_handler_db {
 
 	}
 
-
 	/**
 	 * Delete a session from the database
 	 * @param	string	$id
@@ -365,7 +327,6 @@ class session_handler_db {
 		$this->_pdo->query("DELETE FROM {$this->table_name} WHERE {$this->primary_key} = '{$id}'");
 		return TRUE;
 	}
-
 
 	/**
 	 * Garbage collector method to remove old sessions
@@ -379,5 +340,5 @@ class session_handler_db {
 		$this->_pdo->query("DELETE FROM {$this->table_name} WHERE last_activity < '{$time}'");
 	
 		return TRUE;
-	}
+	}	
 }
