@@ -95,7 +95,7 @@ try
 	/* -------------- */
 	
 	// set the timezone
-	date_default_timezone_set($config->config_values['application']['timezone']);
+//	date_default_timezone_set($config->config_values['application']['timezone']);
 
 	/*** set error handler level to E_WARNING ***/
 	set_error_handler('_exception_handler', $config->config_values['application']['error_reporting']);
