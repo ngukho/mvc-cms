@@ -23,7 +23,7 @@ final class Session
 	public $session_name		= 'site_session';	//What should the session be called?
 	public $session_id			= NULL;				//Specify a custom ID to use instead of default cookie ID
 
-	public $session_database	= FALSE;			//Class to use for storage, FALSE for native php	
+	public $session_database	= FALSE;			
 	private $_pdo = NULL;
 	public $table_name	= 'sessions';
 	public $primary_key	= 'session_id';
