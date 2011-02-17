@@ -22,7 +22,8 @@ final class Session
 	public $match_token			= FALSE;			//Require this token to match?
 	public $session_name		= 'site_session';	//What should the session be called?
 	public $session_id			= NULL;				//Specify a custom ID to use instead of default cookie ID
-
+	private $encryption_key		= '~!@#$%^&*()1234567890';
+	
 	public $session_database	= FALSE;			
 	private $_pdo = NULL;
 	public $table_name	= 'sessions';
@@ -85,6 +86,17 @@ final class Session
 		$this->userdata =& $_SESSION;
 	}
 
+    /**
+     * Destructor
+     *
+     * @access public 
+     * @return void
+     */
+    public function __destruct()
+    {
+        // Close session
+        session_write_close();
+    }	
 
 	/**
 	 * Start the current session, if already started - then destroy and create a new session!
@@ -167,18 +179,18 @@ final class Session
 		}
 
 		//Set the session start time so we can track when to regenerate the session
-		if(empty($_SESSION['regenerate'])) 
+		if(empty($_SESSION['last_activity'])) 
 		{
-			$_SESSION['regenerate'] = time();
+			$_SESSION['last_activity'] = time();
 		} 
 		//Check to see if the session needs to be regenerated
-		elseif($_SESSION['regenerate'] + $this->regenerate < time()) 
+		elseif($_SESSION['last_activity'] + $this->expiration < time()) 
 		{
 			//Generate a new session id and a new cookie with the updated id
 			session_regenerate_id();
 
 			//Store new time that the session was generated
-			$_SESSION['regenerate'] = time();
+			$_SESSION['last_activity'] = time();
 
 		}
 		return TRUE;
@@ -295,26 +307,28 @@ final class Session
 		 */
 
 		//If the session was not empty at start && regenerated sometime durring the page
-		if($this->session_id && $this->session_id != $id) 
-		{
-	    	$this->_pdo->query("UPDATE {$this->table_name} SET data = '{$data}' WHERE {$this->primary_key} = '{$id}'");
-			return;
-		}
-
-		/*
-		 * Case 2: We check to see if the session already exists. If it does
-		 * then we need to update it. If not, then we create a new entry.
-		 */
-		$row = $this->read($id);
-		if(!empty($row)) 
-		{
-	    	$this->_pdo->query("UPDATE {$this->table_name} SET data = '{$data}' WHERE {$this->primary_key} = '{$id}'");			
-		} 
-		else 
-		{
-			$this->_pdo->query("INSERT INTO {$this->table_name}({$this->primary_key},data) VALUES('{$id}','{$data}')");
-		}
-
+//		if($this->session_id && $this->session_id != $id) 
+//		{
+//	    	$this->_pdo->query("UPDATE {$this->table_name} SET data = '{$data}' WHERE {$this->primary_key} = '{$id}'");
+//			return;
+//		}
+//
+//		/*
+//		 * Case 2: We check to see if the session already exists. If it does
+//		 * then we need to update it. If not, then we create a new entry.
+//		 */
+//		$row = $this->read($id);
+//		if(!empty($row)) 
+//		{
+//	    	$this->_pdo->query("UPDATE {$this->table_name} SET data = '{$data}' WHERE {$this->primary_key} = '{$id}'");			
+//		} 
+//		else 
+//		{
+//			$this->_pdo->query("INSERT INTO {$this->table_name}({$this->primary_key},data) VALUES('{$id}','{$data}')");
+//		}
+		
+		$time = date('Y-m-d H:i:s', time());
+		$this->_pdo->query("REPLACE `{$this->table_name}` (`{$this->primary_key}`,`last_activity`,`data`) VALUES('{$id}','{$time}','{$data}')");
 	}
 
 	/**
@@ -338,7 +352,31 @@ final class Session
 		
 		//Remove all old sessions
 		$this->_pdo->query("DELETE FROM {$this->table_name} WHERE last_activity < '{$time}'");
-	
 		return TRUE;
 	}	
+	
+	private function _set_cookie($cookie_data = NULL)
+	{
+		if (is_null($cookie_data))
+		{
+			$cookie_data = $this->userdata;
+		}
+
+		// Serialize the userdata for the cookie
+		$cookie_data = serialize($cookie_data);
+
+		// if encryption is not used, we provide an md5 hash to prevent userside tampering
+		$cookie_data = $cookie_data.md5($cookie_data.$this->encryption_key);
+
+		// Set the cookie
+		setcookie(
+					$this->session_name,
+					$cookie_data,
+					$this->expiration + time(),
+					$this->cookie_path,
+					$this->cookie_domain,
+					0
+				);
+	}
+	
 }
