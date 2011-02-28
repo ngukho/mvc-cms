@@ -34,6 +34,13 @@ class Dashboard_MemberController extends AdminController
 		$this->oResponse->setOutput($this->_view->fetch('dashboard/member/login'), $this->oConfig->config_values['application']['config_compression']);
 	}
 	
+	public function logoutAction()
+	{
+		unset($this->oSession->userdata['current_admin']);
+		unset($this->oSession->userdata['is_logged']);
+		redirect('dashboard/member/login');		
+	}
+	
 	
 
 }
