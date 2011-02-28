@@ -8,7 +8,14 @@ class Users extends Model
 	public function __construct()
 	{
 		parent::__construct();
-	}	
+	}
+
+    public function checkLogin($username, $password)
+    {
+    	$row = $this->getRow('username = ? AND password = ?',array($username,$password));
+    	return $row;
+    }	
+	
 }
 
 ?>
