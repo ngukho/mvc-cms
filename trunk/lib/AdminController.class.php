@@ -16,4 +16,12 @@ abstract class AdminController extends BaseController
 //		$this->oResponse->setOutput($result, $this->oConfig->config_values['application']['config_compression']);
 //	}
 
+	public function isLogged()
+	{
+		if(isset($this->oSession->userdata['is_logged']) && $this->oSession->userdata['is_logged'] === TRUE)
+			return TRUE;
+		else
+			return FALSE;
+	}
+
 }
