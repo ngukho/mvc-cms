@@ -7,6 +7,20 @@ abstract class AdminController extends BaseController
 	{
 		parent::__construct();
 		$this->_layout_path = 'admin/default';
+		$current_url = "{$this->_module}/{$this->_controller}/{$this->_action}";
+		$allow_url = array('dashboard/member/index','dashboard/member/login','dashboard/member/logout');
+		if(in_array($current_url, $allow_url))
+		{
+			return; 
+		}
+		
+		if(!$this->isLogged())
+		{
+			show_404();
+		}
+		$this->_view->current_admin = $this->oSession->userdata['current_admin'];
+		$this->_view->is_logged = $this->oSession->userdata['is_logged'];
+		
 	}
 	
 //	protected function renderView($path)
