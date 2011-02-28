@@ -3,6 +3,7 @@
 class en
 {
 	const __DASHBOARD = 'Dashboard Administrator';
+	const __HOME = 'Home';
 	const __RENDER_ACTION = 'Render Action';
 	const __PAGING = 'Paging';
 	const __NORMAL_DATABASE = 'Normal Database';

@@ -42,7 +42,7 @@ try
 	function modelLoader($class)
 	{
 		$filename = $class . '.model.php';
-		$file = __SITE_PATH . "application/models/$filename";
+		$file = __SITE_PATH . "/application/models/$filename";
 		if (file_exists($file) == FALSE)
 		{
 			return FALSE;
