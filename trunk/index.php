@@ -29,10 +29,10 @@ try
 	require __APP_PATH . '/config/constants.php';
 	
  	/*** include the helper ***/
- 	$autoload_helpers = array('common','html');
+ 	$autoload_helpers = array('common');
  	
  	/*** registry auto load ***/
-	spl_autoload_register(null, false);
+	spl_autoload_register(null, FALSE);
 	spl_autoload_extensions('.php, .class.php, .lang.php, .model.php');
 
 	// model loader
@@ -40,9 +40,9 @@ try
 	{
 		$filename = $class . '.model.php';
 		$file = __APP_PATH . "/models/$filename";
-		if (file_exists($file) == false)
+		if (file_exists($file) == FALSE)
 		{
-			return false;
+			return FALSE;
 		}
 		include_once $file;
 	}
@@ -52,9 +52,9 @@ try
 	{
 		$filename = $class . '.class.php';
 		$file = __SITE_PATH . '/lib/' . $filename;
-		if (file_exists($file) == false)
+		if (file_exists($file) == FALSE)
 		{
-			return false;
+			return FALSE;
 		}
 		include_once $file;
 	}
