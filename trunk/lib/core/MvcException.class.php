@@ -105,7 +105,7 @@ class MvcException extends Exception
 			ob_end_flush();	
 		}
 		ob_start();
-		include(__APP_PATH.'/errors/'.$template.'.phtml');
+		include(__SITE_PATH.'/application/errors/'.$template.'.phtml');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		return $buffer;
@@ -141,7 +141,7 @@ class MvcException extends Exception
 			ob_end_flush();	
 		}
 		ob_start();
-		include(__APP_PATH.'/errors/error_php.phtml');
+		include(__SITE_PATH.'/application/errors/error_php.phtml');
 		$buffer = ob_get_contents();
 		ob_end_clean();
 		echo $buffer;
