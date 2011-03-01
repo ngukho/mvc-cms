@@ -10,17 +10,15 @@ class Dashboard_PanelController extends AdminController
 
 	public function indexAction() 
 	{
-	    $this->forward('dashboard/panel/show');
+		if(!$this->isLogged())
+			redirect('dashboard/member/login');
+			
+	    return $this->forward('dashboard/panel/show');
 	}	
 	
 	public function showAction() 
 	{
-		$row = $this->oSession->userdata['current_admin'];
-//		echo "<pre>";
-//		print_r($row['username']);
-//		echo "</pre>";
-//		exit();
-		$this->_view->title = 'PHP MVC framework';
+		$this->_view->title = 'PHP MVC Framework';
 		$this->renderView('dashboard/panel/show');
 	}
 	
