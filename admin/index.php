@@ -11,6 +11,10 @@ try
 	// __BASE_URL : /adv_mvc/admin/
  	define ('__BASE_URL', str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
  	
+ 	define ('__IMAGE_URL', __SITE_URL.'images/');
+ 	define ('__CSS_URL', __SITE_URL.'css/');
+ 	define ('__ASSET_URL', __SITE_URL.'assets/');
+ 	
 	// the application directory path 
 	define ('__APP_PATH', __SITE_PATH.'/admin');
 	define ('__VIEW_PATH', __APP_PATH.'/views');	
