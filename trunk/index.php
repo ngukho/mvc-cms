@@ -5,8 +5,15 @@ try
 	// define the site path __SITE_PATH : c:\xampp\htdocs\adv_mvc
 	define ('__SITE_PATH', realpath(dirname(__FILE__)));
 	
+	// __SITE_URL : /adv_mvc/
+ 	define ('__SITE_URL', str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
+	
 	// __BASE_URL : /adv_mvc/
- 	define ('__BASE_URL', str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
+ 	define ('__BASE_URL', __SITE_URL);
+ 	
+ 	define ('__IMAGE_URL', __SITE_URL.'images/');
+ 	define ('__CSS_URL', __SITE_URL.'css/');
+ 	define ('__ASSET_URL', __SITE_URL.'assets/');
  	
 	// the application directory path 
 	define ('__APP_PATH', __SITE_PATH.'/application');
