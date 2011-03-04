@@ -16,6 +16,36 @@ class Site_IndexController extends BaseController
 	    $this->renderView('site/home/index');
 	}
 	
+	public function testAction() 
+	{
+//		echo "<pre>";
+//		print_r(print rand(1, 1000000));
+//		echo "</pre>";
+//		exit();
+		
+//echo "<pre>";
+//print_r((rand() * rand()) / (getrandmax() * getrandmax()));
+//echo "</pre>";
+//exit();
+//
+//echo "<pre>";
+//print_r(abs((rand()%150)-50) );
+//echo "</pre>";
+//exit();
+//
+//		$x = rand(0,1) ? rand(1,100) : rand(1,50);
+
+		$i = 90;
+		
+		$r = rand(1, 100);
+		$p = rand(1, $i);
+		
+		echo ($p - $r > 0) ? "OK" : "ERROR";
+		echo "<br>";		   		
+		print("Winner! -- Hit refresh on your browser to play again");
+      	exit;
+	}
+	
 	public function changeAction()
 	{
 		$db = DbConnection::getInstance();
