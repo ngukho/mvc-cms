@@ -37,7 +37,7 @@ class DbConnection
 	*/
 	public static function getInstance($config_name = 'database_master')
 	{
-		if (!self::$instances[$config_name])
+		if (!isset(self::$instances[$config_name]))
 		{
 			$config = Config::getInstance();
 			$db_type = $config->config_values[$config_name]['db_type'];
