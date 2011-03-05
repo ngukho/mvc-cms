@@ -443,7 +443,7 @@ class SimpleActiveRecord extends SimpleDbAdapterWrapper {
 		return $this->find($query, $order, $group, 1);
 	}
 
-	public function find($query, $order, $group, $limit) {
+	public function find($query = '', $order = '', $group = '', $limit = '') {
 		$rows = array();
 		$className = get_class($this);
 		$sql = $this->generateSelectQuery($query, $order, $group, $limit);
@@ -462,6 +462,19 @@ class SimpleActiveRecord extends SimpleDbAdapterWrapper {
 		return $rows;
 	}
 
+	public function getTotalRow($query = '')
+	{
+		$sql = "SELECT COUNT(*) AS TotalRow FROM " . $this->escapeTablename($this->tableName);
+		if(!empty($query))
+		{
+			$sql .= " WHERE " . $query;
+		}
+		
+		$sqlResource = $this->runQuery($sql);
+		$row = $this->fetchRow($sqlResource);
+		return $row['TotalRow'];
+	}
+	
 	public function save() {
 		$setQuery = Array();
 		$saveFields = $this->fields;
@@ -564,8 +577,12 @@ class SimpleActiveRecord extends SimpleDbAdapterWrapper {
 	}
 
 	private function generateSelectQuery($where, $order, $group, $limit) {
-		$sql = 'SELECT * FROM ' . $this->escapeTablename($this->tableName) . ' WHERE ' . $where;
+//		$sql = 'SELECT * FROM ' . $this->escapeTablename($this->tableName) . ' WHERE ' . $where;
+		$sql = 'SELECT * FROM ' . $this->escapeTablename($this->tableName);
 
+		if ($where)
+			$sql .= ' WHERE ' . $where;
+		
 		if ($order)
 			$sql .= ' ORDER BY ' . $order;
 
