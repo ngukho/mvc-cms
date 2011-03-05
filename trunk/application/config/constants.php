@@ -2,6 +2,11 @@
 
 define('_TB_PREFIX', '');
 define('TB_USERS', _TB_PREFIX . 'users');
+define('TB_CONTENTS', _TB_PREFIX . 'tb_content');
+define('TB_CONTENT_CATS', _TB_PREFIX . 'tb_content_cat');
+define('TB_PRODUCTS', _TB_PREFIX . 'tb_product');
+define('TB_PRODUCT_CATS', _TB_PREFIX . 'tb_product_cat');
+
 
 /*
 |--------------------------------------------------------------------------
