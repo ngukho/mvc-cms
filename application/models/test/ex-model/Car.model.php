@@ -1,6 +1,6 @@
 <?php
 
-class Example_Model_Car extends ORM
+class Test_ExModel_Car 
 {
 	public static $t = 'car';
 	public static $f = 'car_id';
@@ -8,5 +8,10 @@ class Example_Model_Car extends ORM
 	public static $b = array(
 		'student' => 'Example_Model_Student',
 	);
+	
+	function show()
+	{
+		return "Bui van tien duc";
+	}
 	
 }
