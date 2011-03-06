@@ -444,7 +444,33 @@ function set_status_header($code = 200, $text = '')
 	}
 }
 
+//// underscored to upper-camelcase 
+//// e.g. "this_method_name" -> "ThisMethodName" 
+//$t = preg_replace('/(?:^|-)(.?)/e',"strtoupper('$1')",$string);
+function upperCamelcase($string)
+{
+	return preg_replace('/(?:^|-)(.?)/e',"strtoupper('$1')",$string);
+}
 
+//// underscored to lower-camelcase 
+//// e.g. "this_method_name" -> "thisMethodName" 
+//$t = preg_replace('/-(.?)/e',"strtoupper('$1')",$string);  
+function lowerCamelcase($string)
+{
+	return preg_replace('/-(.?)/e',"strtoupper('$1')",$string);
+}	
+
+// camelcase (lower or upper) to underscored 
+// e.g. "thisMethodName" -> "this_method_name" 
+// e.g. "ThisMethodName" -> "this_method_name" 
+function camelcaseToHyphen($string)
+{
+	strtolower(preg_replace('/([^A-Z])([A-Z])/', "$1-$2", $string));
+}
+// camelcase (lower or upper) to underscored 
+// e.g. "thisMethodName" -> "this_method_name" 
+// e.g. "ThisMethodName" -> "this_method_name" 
+//strtolower(preg_replace('/([^A-Z])([A-Z])/', "$1_$2", $string)); 
 /**
 * Exception Handler
 *
