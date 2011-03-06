@@ -77,7 +77,7 @@ class Paginator
 				$offset = ($i - 1) * $this->items_per_page;
 				$this->return .= ($i == $this->current_page) ? "<a class=\"current\" href=\"#\">$i</a> ":"<a class=\"paginate\" href=\"".sprintf($this->current_url, $offset)."\">$i</a> ";
 			}
-			$this->return .= "<a class=\"paginate\" href=\"".sprintf($this->current_url, 0)."\">All</a> \n";
+			//$this->return .= "<a class=\"paginate\" href=\"".sprintf($this->current_url, 0)."\">All</a> \n";
 		}
 		$this->low = ($this->current_page-1) * $this->items_per_page;
 	}
