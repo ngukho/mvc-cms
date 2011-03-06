@@ -20,10 +20,10 @@ final class Request
 		$this->parseUri($route);
 		
 		$moduleDir = __APP_PATH . '/controllers/' . $this->module;
-		$controllerFile = __APP_PATH.'/controllers/'.$this->module.'/'.$this->upperCamelcase($this->controller).'Controller.php';
-		$controllerClass =  $this->upperCamelcase($this->module).'_'.$this->upperCamelcase($this->controller).'Controller';;
+		$controllerFile = __APP_PATH.'/controllers/'.$this->module.'/'.upperCamelcase($this->controller).'Controller.php';
+		$controllerClass =  upperCamelcase($this->module).'_'.upperCamelcase($this->controller).'Controller';;
 		
-		$this->method = $this->lowerCamelcase($this->action).'Action';
+		$this->method = lowerCamelcase($this->action).'Action';
 		$this->args = array_merge($this->args,$args); 
 		
 		if(!is_dir($moduleDir))
@@ -94,22 +94,6 @@ final class Request
 		$this->args = $parts;
 		
 	}
-	
-	//// underscored to upper-camelcase 
-	//// e.g. "this_method_name" -> "ThisMethodName" 
-	//$t = preg_replace('/(?:^|-)(.?)/e',"strtoupper('$1')",$string);
-	private function upperCamelcase($string)
-	{
-		return preg_replace('/(?:^|-)(.?)/e',"strtoupper('$1')",$string);
-	}
-
-	//// underscored to lower-camelcase 
-	//// e.g. "this_method_name" -> "thisMethodName" 
-	//$t = preg_replace('/-(.?)/e',"strtoupper('$1')",$string);  
-	private function lowerCamelcase($string)
-	{
-		return preg_replace('/-(.?)/e',"strtoupper('$1')",$string);
-	}	
 	
 	public function getFile() {
 		return $this->file;
