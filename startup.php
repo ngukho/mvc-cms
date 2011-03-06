@@ -1,5 +1,12 @@
 <?php  if ( ! defined('__SITE_PATH')) exit('No direct script access allowed');
 
+	// Set include path to Zend (and other) libraries
+    set_include_path(__SITE_PATH . '/lib' .
+	//        PATH_SEPARATOR . APPLICATION_PATH . '/models' .
+        PATH_SEPARATOR . get_include_path() .
+        PATH_SEPARATOR . '.'
+    );
+    
 	require __SITE_PATH . '/lib/core/FrontController.class.php';
 	require __SITE_PATH . '/lib/core/IController.class.php';
 	require __SITE_PATH . '/lib/core/BaseController.class.php';
@@ -37,6 +44,15 @@
 			include_once $file;
 			return TRUE;
 		}
+		$paths = explode('_', $class);
+		
+		camelcaseToHyphen($paths[0])
+		
+		for ($i = 0; $i < count($paths); $i++) 
+		{
+			$paths[$i] = camelcaseToHyphen($paths[$i]);	
+		}
+		
 		return FALSE;
 	}
 
