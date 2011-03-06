@@ -7,6 +7,9 @@
         PATH_SEPARATOR . '.'
     );
     
+	// Load helper file . Master function
+	require __HELPER_PATH . '/common.helper.php';
+    
 	require __SITE_PATH . '/lib/core/FrontController.class.php';
 	require __SITE_PATH . '/lib/core/IController.class.php';
 	require __SITE_PATH . '/lib/core/BaseController.class.php';
@@ -16,93 +19,20 @@
 	require __SITE_PATH . '/lib/core/Registry.class.php';
 	require __SITE_PATH . '/lib/core/Config.class.php';
 	require __SITE_PATH . '/lib/core/MvcException.class.php';
+	require __SITE_PATH . '/lib/core/Model.class.php'; /* Kieu ket noi don gian */
+	require __SITE_PATH . '/lib/core/SimpleActiveRecord.class.php'; /* Ket noi dung ActiveRecord */
 	
-	/*
-		Kieu ket oi don gian
-	*/
-	require __SITE_PATH . '/lib/core/Model.class.php';
-	
-	/*
-		Kieu ket noi dung Active Record ho tro Relationship
-	*/
-	require __SITE_PATH . '/lib/core/SimpleActiveRecord.class.php';
-	
-	// Load config files
-	require __APP_PATH . '/config/constants.php';
+	// Load config files. Global config file
+	require __SITE_PATH . '/application/config/constants.php';
 	
  	/*** registry auto load ***/
 	spl_autoload_register(null, FALSE);
 	spl_autoload_extensions('.php, .class.php, .lang.php, .model.php');
-
-	// model loader
-	function modelLoader($class)
-	{
-		$filename = $class . '.model.php';
-		$file = __SITE_PATH . "/application/models/$filename";
-		if (file_exists($file) == TRUE)
-		{
-			include_once $file;
-			return TRUE;
-		}
-		$paths = explode('_', $class);
-		
-		camelcaseToHyphen($paths[0])
-		
-		for ($i = 0; $i < count($paths); $i++) 
-		{
-			$paths[$i] = camelcaseToHyphen($paths[$i]);	
-		}
-		
-		return FALSE;
-	}
-
-	// autoload libs
-	function libLoader($class)
-	{
-		$filename = $class . '.class.php';
-		$file = __SITE_PATH . '/lib/' . $filename;
-		if (file_exists($file) == TRUE)
-		{
-			include_once $file;
-			return TRUE;
-		}
-		
-		$paths = explode('_', $class);
-		if($paths[0] == "Zend")
-		{
-			$file = __SITE_PATH . '/lib/' . str_replace('_', '/', $class) . '.php';
-			if (file_exists($file)) 
-			{
-				include_once $file;
-				return TRUE;
-			}    			
-		}
-		
-		return FALSE;
-	}
-	
 	spl_autoload_register('libLoader');
 	spl_autoload_register('modelLoader');
 	
-	// Load helper function
-	function helperLoader($functions)
-	{
-		if(!is_array($functions))
-			$functions = array($functions);
-			
-		foreach ($functions as $function)
-		{
-			$file_path = __HELPER_PATH . "/{$function}.helper.php";
-			if(file_exists($file_path))
-				include_once $file_path;
-		}			
-	}
-	
-	/* ---------------------------------------------------------- */
-	
  	/*** include the helper ***/
-	helperLoader(array_merge($_autoload_helpers,array('common')));
-	/* ---------------------------------------------------------- */
+	helperLoader($_autoload_helpers);
 	
 	// Load language  
 	$config = Config::getInstance();
