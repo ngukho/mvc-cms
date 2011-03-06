@@ -446,7 +446,6 @@ function set_status_header($code = 200, $text = '')
 
 //// underscored to upper-camelcase 
 //// e.g. "this_method_name" -> "ThisMethodName" 
-//$t = preg_replace('/(?:^|-)(.?)/e',"strtoupper('$1')",$string);
 function upperCamelcase($string)
 {
 	return preg_replace('/(?:^|-)(.?)/e',"strtoupper('$1')",$string);
@@ -454,23 +453,86 @@ function upperCamelcase($string)
 
 //// underscored to lower-camelcase 
 //// e.g. "this_method_name" -> "thisMethodName" 
-//$t = preg_replace('/-(.?)/e',"strtoupper('$1')",$string);  
 function lowerCamelcase($string)
 {
 	return preg_replace('/-(.?)/e',"strtoupper('$1')",$string);
 }	
 
-// camelcase (lower or upper) to underscored 
+// camelcase (lower or upper) to hyphen 
 // e.g. "thisMethodName" -> "this_method_name" 
-// e.g. "ThisMethodName" -> "this_method_name" 
+// e.g. "ThisMethodName" -> "this_method_name"
+// Of course these aren't 100% symmetric.  For example...
+//  * this_is_a_string -> ThisIsAString -> this_is_astring
+//  * GetURLForString -> get_urlfor_string -> GetUrlforString 
 function camelcaseToHyphen($string)
 {
-	strtolower(preg_replace('/([^A-Z])([A-Z])/', "$1-$2", $string));
+	return strtolower(preg_replace('/([^A-Z])([A-Z])/', "$1-$2", $string));
 }
-// camelcase (lower or upper) to underscored 
-// e.g. "thisMethodName" -> "this_method_name" 
-// e.g. "ThisMethodName" -> "this_method_name" 
-//strtolower(preg_replace('/([^A-Z])([A-Z])/', "$1_$2", $string)); 
+
+// model loader
+function modelLoader($class)
+{
+	$filename = $class . '.model.php';
+	$file = __SITE_PATH . "/application/models/$filename";
+	if (file_exists($file) == TRUE)
+	{
+		include_once $file;
+		return TRUE;
+	}
+	
+	$paths = explode('_', $filename);
+	for ($i = 0; $i < count($paths) - 1 ; $i++) 
+		$paths[$i] = camelcaseToHyphen($paths[$i]);	
+
+	$file = __SITE_PATH . "/application/models/" . join('/',$paths);
+	if (file_exists($file) == TRUE)
+	{
+		include_once $file;
+		return TRUE;
+	}
+	
+	return FALSE;
+}
+
+// autoload libs
+function libLoader($class)
+{
+	$filename = $class . '.class.php';
+	$file = __SITE_PATH . '/lib/' . $filename;
+	if (file_exists($file) == TRUE)
+	{
+		include_once $file;
+		return TRUE;
+	}
+		
+	$paths = explode('_', $class);
+	if($paths[0] == "Zend")
+	{
+		$file = __SITE_PATH . '/lib/' . str_replace('_', '/', $class) . '.php';
+		if (file_exists($file)) 
+		{
+			include_once $file;
+			return TRUE;
+		}    			
+	}
+		
+	return FALSE;
+}
+	
+// Load helper function
+function helperLoader($functions)
+{
+	if(!is_array($functions))
+		$functions = array($functions);
+		
+	foreach ($functions as $function)
+	{
+		$file_path = __HELPER_PATH . "/{$function}.helper.php";
+		if(file_exists($file_path))
+			include_once $file_path;
+	}			
+}
+
 /**
 * Exception Handler
 *
