@@ -15,6 +15,7 @@ Class ActiveRecord_ActiveRecordController Extends BaseController
 	
 	public function showAction($offset = 0) 
 	{
+		$r = new Zend_Db_Select();
 	    $this->_view->title = 'ActiveRecord Database MVC';
 	    
 	    $contents = new Contents();
