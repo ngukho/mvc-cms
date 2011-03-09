@@ -1,21 +1,14 @@
 <?php
 
-class Users extends Model 
+class ContentCats extends SimpleActiveRecord 
 {
-	protected $_table_name = TB_USERS;
-	protected $_primary_key = 'user_id';
+	protected $primaryKey = 'id';
+	protected $tableName = TB_CONTENT_CATS;
 	
-	public function __construct()
-	{
-		parent::__construct();
-	}
+	public $has_many = array( 'oContents' => 'Contents:cat_id' );
+//	public $belongs_to = array( 'customer' => 'Customer' );
+//	public $serialize = 'meta';
 
-    public function checkLogin($username, $password)
-    {
-    	$row = $this->getRow('username = ? AND password = ?',array($username,$password));
-    	return $row;
-    }	
-	
 }
 
 ?>
