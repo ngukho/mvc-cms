@@ -370,7 +370,16 @@ class SimpleActiveRecord extends SimpleDbAdapterWrapper {
 				$class = $value;
 			}
 			
-			$columns = $config['columns'];			
+			if(isset($config['columns']))
+				$columns = $config['columns'];
+			else
+			{
+				$tableName = $this->tableName;
+				if (substr($tableName,-1) == 's')
+					$tableName = substr($tableName,0,strlen($tableName)-1);
+				$columns = $tableName . '_id';
+			}
+				
 			if (isset($this->$columns) && !empty($this->$columns)) {
 				$obj = new $class();
 				return $obj->findFirstBy($key, $this->$columns);
