@@ -242,8 +242,8 @@ class SimpleActiveRecord extends SimpleDbAdapterWrapper {
 				$this->tableName .= 's';
 		}
 
-		$this->belongs_to = ARExpect::expectAssocArray($this->belongs_to);
-		$this->has_many = ARExpect::expectAssocArray((array)$this->has_many);
+//		$this->belongs_to = ARExpect::expectAssocArray($this->belongs_to);
+//		$this->has_many = ARExpect::expectAssocArray((array)$this->has_many);
 
 		$this->serialize = ARExpect::expectArray($this->serialize);
 
@@ -355,31 +355,32 @@ class SimpleActiveRecord extends SimpleDbAdapterWrapper {
 	}
 
 	public function __get($name) {
-
 		if ($this->getCache($name) !== null) {
 			return $this->getCache($name);
 		}
 
 		if (isset($this->belongs_to[$name])) {
-			$value = $this->belongs_to[$name];
+			$config = $this->belongs_to[$name];
+			
+			$value = $config['refTableClass'];
 			if (strpos($value, ':') !== false) {
-				list($key, $class) = split(':', $value);
+				list($class, $key) = split(':', $value);
 			} else {
-				$key = $name . '_id';
+				$key = 'id';
 				$class = $value;
 			}
-
-			if (isset($this->$key) && !empty($this->$key)) {
-				$obj = new $class($this->$key);
-				$this->setCache($name, $obj);
-				return $obj;
+			
+			$columns = $config['columns'];			
+			if (isset($this->$columns) && !empty($this->$columns)) {
+				$obj = new $class();
+				return $obj->findFirstBy($key, $this->$columns);
 			}
 		}
 
 		if (isset($this->has_many[$name])) {
 			$value = $this->has_many[$name];
 			if (strpos($value, ':') !== false) {
-				list($key, $class) = split(':', $value);
+				list($class, $key) = split(':', $value);
 			} else {
 				$tableName = $this->tableName;
 
