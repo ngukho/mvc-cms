@@ -17,25 +17,32 @@ Class ActiveRecord_ActiveRecordController Extends BaseController
 	{
 	    $this->_view->title = 'ActiveRecord Database MVC';
 	    
-	    $contents = new Contents();
+	    $oContentCats = new ContentCats(2);
+	    
+	    $rsCat = $oContentCats->find();
+	    
+	    $oContents = new Contents();
 	    
 	    $items_per_page = 15;
 	    $offset = ($offset % $items_per_page != 0 ? 0 : $offset);
 	    
-		$rs = $contents->find(NULL,'sort ASC',NULL,"$offset,$items_per_page");
+		$rs = $oContents->find(NULL,'sort ASC',NULL,"$offset,$items_per_page");
 	    
 	    $pages = new Paginator();
 	    $pages->current_url = base_url() . 'active-record/active-record/show/%d';
 	    $pages->offset = $offset;
 	    $pages->items_per_page = $items_per_page;
 	    
-		$pages->items_total = $contents->getTotalRow();
+		$pages->items_total = $oContents->getTotalRow();
 		$pages->mid_range = 7;
 		$pages->paginate();
 		
 		$this->_view->pages = $pages;
 	    $this->_view->rs = $rs;
 	    
+   	    $this->_view->rsCat = $rsCat;
+	    
+	    $this->_view->filter_link = base_url() . 'active-record/active-record/show';
 	    $this->_view->add_link = base_url() . 'active-record/active-record/ar-add-model/';
 	    $this->_view->edit_link = base_url() . 'active-record/active-record/ar-edit-model/';
 	    $this->_view->delete_link = base_url() . 'active-record/active-record/ar-delete-model/';
