@@ -45,7 +45,7 @@ class FrontController
 		
 		foreach ($this->pre_request as $pre_request) 
 		{
-			$result = self::run($pre_request);;
+			$result = Module::run($pre_request);
 					
 			if ($result) 
 			{
@@ -55,7 +55,7 @@ class FrontController
 		}
 			
 		while ($request) {
-			$request = self::run($request);
+			$request = Module::run($request);
 		}
 	}
 	
