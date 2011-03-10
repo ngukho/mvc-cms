@@ -11,7 +11,7 @@
 class FrontController
 {
 
-	protected $_module, $_controller, $_action, $_view , $_registry;
+	protected $_module, $_controller, $_action, $_registry;
 	protected $pre_request = array();	
 
 	public static $_instance;
@@ -59,50 +59,6 @@ class FrontController
 		}
 	}
 	
-	public static function run($request) 
-	{
-		$file   = $request->getFile();
-		$class  = $request->getClass();
-		$method = $request->getMethod();
-		$args   = $request->getArgs();
-
-		$front = self::getInstance();
-		
-		$registry = $front->getRegistry();
-		
-		$registry->oRequest = $request;
-		
-		$front->setRegistry($registry);
-		
-		if (file_exists($file)) 
-		{		
-			require_once($file);
-			
-			$rc = new ReflectionClass($class);
-			// if the controller exists and implements IController
-			if( $rc->implementsInterface( 'IController' ) )
-			{
-				try {
-					$controller = $rc->newInstance();
-					$classMethod = $rc->getMethod($method);			
-					return $classMethod->invokeArgs($controller,$args);
-				}
-				catch (ReflectionException $e)
-				{
-					throw new MvcException($e->getMessage());
-				}
-			}
-			else
-			{
-				throw new MvcException("Interface iController must be implemented");
-			}
-		}
-		else 
-		{
-			throw new MvcException("Controller file not found");
-		}
-	}		
-	
 	public function getModule()
 	{
 		return $this->_module;
@@ -116,11 +72,6 @@ class FrontController
 	public function getAction()
 	{
 		return $this->_action;
-	}
-
-	public function getView()
-	{
-		return $this->_view;
 	}
 
 	public function getRegistry()
