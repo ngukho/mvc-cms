@@ -1,6 +1,13 @@
 <?php
+/**
+ *
+ * @Controller Interface
+ *
+ */
 
-abstract class BaseController  implements IController
+interface IController {}
+
+abstract class BaseController implements IController
 {
 	protected $_front , $_module , $_controller , $_action , $_view, $_registry , $_layout_path = NULL;
 

@@ -32,7 +32,8 @@ class Module
 			
 			$rc = new ReflectionClass($class);
 			// if the controller exists and implements IController
-			if( $rc->implementsInterface( 'IController' ) )
+//			if($rc->implementsInterface('IController'))
+			if($rc->isSubclassOf('BaseController'))
 			{
 				try {
 					$controller = $rc->newInstance();
@@ -46,7 +47,8 @@ class Module
 			}
 			else
 			{
-				throw new MvcException("Interface iController must be implemented");
+//				throw new MvcException("Interface iController must be implemented");
+				throw new MvcException("abstract class BaseController must be extended");
 			}
 		}
 		else 
