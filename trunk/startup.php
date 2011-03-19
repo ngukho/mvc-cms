@@ -28,8 +28,7 @@
  	/*** registry auto load ***/
 	spl_autoload_register(null, FALSE);
 	spl_autoload_extensions('.php, .class.php, .lang.php, .model.php');
-	spl_autoload_register('libLoader');
-	spl_autoload_register('modelLoader');
+	spl_autoload_register('_autoload');	
 	
  	/*** include the helper ***/
 	helperLoader($_autoload_helpers);
@@ -37,19 +36,24 @@
 	// Load language  
 	$config = Config::getInstance();
 	$lang = $config->config_values['application']['language'];
-	$filename = strtolower($lang) . '.lang.php';
-	$file = __APP_PATH . '/lang/' . $filename;
-	include $file;
-
-	if (!function_exists('class_alias')) {
-	    function class_alias($original, $alias) {
-	        eval('abstract class ' . $alias . ' extends ' . $original . ' {}');
-	    }
-	}
-	// alias the lang class
-	class_alias($lang,'Lang');
+	if(!empty($lang))
+	{
+		$file = __APP_PATH . '/lang/' . strtolower($lang) . '.lang.php';
+		if(file_exists($file))
+		{
+			include $file;
+			if (!function_exists('class_alias')) {
+			    function class_alias($original, $alias) {
+			        eval('abstract class ' . $alias . ' extends ' . $original . ' {}');
+			    }
+			}
+		}
+		else 
+			throw new Exception("File not found : {$file}");
+		// alias the lang class
+		class_alias($lang,'Lang');
 	/* -------------- */
-	
+	}
 	// set the timezone
 //	date_default_timezone_set($config->config_values['application']['timezone']);
 
