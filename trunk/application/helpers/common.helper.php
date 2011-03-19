@@ -469,42 +469,25 @@ function camelcaseToHyphen($string)
 	return strtolower(preg_replace('/([^A-Z])([A-Z])/', "$1-$2", $string));
 }
 
-// model loader
-function modelLoader($class)
+function _autoload($class)
 {
-	$filename = $class . '.model.php';
-	$file = __SITE_PATH . "/application/models/$filename";
+	if(class_exists($class)) return;
+
+	$file = __SITE_PATH . "/application/models/" . $class .'.model.php';
 	if (file_exists($file) == TRUE)
 	{
 		include_once $file;
 		return TRUE;
 	}
 	
-	$paths = explode('_', $filename);
-	for ($i = 0; $i < count($paths) - 1 ; $i++) 
-		$paths[$i] = camelcaseToHyphen($paths[$i]);	
-
-	$file = __SITE_PATH . "/application/models/" . join('/',$paths);
+	$file = __SITE_PATH . '/lib/' . $class . '.class.php';
 	if (file_exists($file) == TRUE)
 	{
 		include_once $file;
 		return TRUE;
 	}
-	
-	return FALSE;
-}
 
-// autoload libs
-function libLoader($class)
-{
-	$filename = $class . '.class.php';
-	$file = __SITE_PATH . '/lib/' . $filename;
-	if (file_exists($file) == TRUE)
-	{
-		include_once $file;
-		return TRUE;
-	}
-		
+	// Load Zend library
 	$paths = explode('_', $class);
 	if($paths[0] == "Zend")
 	{
@@ -515,10 +498,21 @@ function libLoader($class)
 			return TRUE;
 		}    			
 	}
-		
+	
+	// Load Model
+	for ($i = 0; $i < count($paths) - 1 ; $i++) 
+		$paths[$i] = camelcaseToHyphen($paths[$i]);	
+
+	$file = __SITE_PATH . "/application/models/" . join('/',$paths) . '.model.php';
+	if (file_exists($file) == TRUE)
+	{
+		include_once $file;
+		return TRUE;
+	}
+	
 	return FALSE;
 }
-	
+
 // Load helper function
 function helperLoader($functions)
 {
