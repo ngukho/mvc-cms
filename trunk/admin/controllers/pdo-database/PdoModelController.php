@@ -18,7 +18,7 @@ class PdoDatabase_PdoModelController Extends AdminController
 		// Test tao model
 		$b = new Test_ExModel_Car();
 		
-	    $this->_view->title = 'PDO Model Database MVC';
+	    $this->_view->title = 'PDO Model Database MVC : ' . $_SESSION['tet'];
 	    
 	    $users = new Users();
 	    
