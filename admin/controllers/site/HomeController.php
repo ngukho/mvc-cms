@@ -10,7 +10,8 @@ class Site_HomeController extends AdminController
 
 	public function indexAction() 
 	{
-	    $this->_view->title = 'Welcome to Bui Van Tien Duc MVC RENDER';
+		$_SESSION['tet'] = 'Bui van tien duc';
+	    $this->_view->title = 'Welcome to Bui Van Tien Duc MVC RENDER : ' . $_SESSION['tet'];
 	    $this->renderView('site/home/index');
 	}
 	
