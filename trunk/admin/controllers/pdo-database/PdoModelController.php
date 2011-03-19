@@ -15,6 +15,12 @@ class PdoDatabase_PdoModelController Extends AdminController
 	
 	public function pdoModelAction($offset = 0) 
 	{
+		$b = new Test_ExModel_Car();
+		print "<pre>";
+		print_r($b->show());
+		print "</pre>";
+		exit();
+		
 	    $this->_view->title = 'PDO Model Database MVC';
 	    
 	    $users = new Users();
