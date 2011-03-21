@@ -91,6 +91,15 @@ if ( ! function_exists('mysql_to_fulldate'))
     }
 }
 
+if ( ! function_exists('mysql_to_unix_timestamp'))
+{
+    function mysql_to_unix_timestamp($date)
+    {
+        if(empty($date) || $date=='0000-00-00 00:00:00')
+            return '';
+        return strtotime($date);
+    }
+}
 
 /**
 * Determines if the current version of PHP is greater then the supplied value
