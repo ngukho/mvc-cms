@@ -291,7 +291,7 @@ class Mailer{
 	public function sendRemote()
 	{
 		/*** get config values for mail ***/
-		$config = config::getInstance();
+		$config = Config::getInstance();
 
 		/*** headers ***/
 		$headers = '';

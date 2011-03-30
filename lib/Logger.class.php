@@ -6,13 +6,10 @@
  *
  * @Purpose: Logs text to a log file specified in config
  *
- * @copyright PHPRO.ORG (2009)
- *
  * @example usage
- * $log = logger::debugLog( "This is a debug log message", 210, __FILE__, __LINE__ );
- * $log = logger::auditLog( "This is an audit log message", 220, __FILE__, __LINE__ );
+ * $log = Logger::debugLog( "This is a debug log message", 210, __FILE__, __LINE__ );
+ * $log = Logger::auditLog( "This is an audit log message", 220, __FILE__, __LINE__ );
  *
- * @see config.class.php
  *
  */
 
@@ -63,7 +60,7 @@ class Logger
 					// encode the line
 					$json = json_encode( $line )."\n";
 	
-					if ($handle = fopen( $config->config_values['logging']['log_file'], "a+") )
+					if ($handle = fopen( __SITE_PATH . $config->config_values['logging']['log_file'], "a+") )
 					{
 						if( !fwrite( $handle, $json ) )
 						{
@@ -74,8 +71,7 @@ class Logger
 				break;
 
 				case 'database':
-//					$dba = new DbAbstraction;
-//					$dba->insert( 'web2bb_log', $line );
+					/* Xu ly insert log vao database*/
 				break;
 
 				default:
