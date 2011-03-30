@@ -60,17 +60,25 @@ if ( ! function_exists('base_url'))
 
 if ( ! function_exists('h'))
 {
-    function h($str)
+    function h(&$str)
     {
-        return nl2br(htmlspecialchars($str));
+    	return empty($str) ? '' : nl2br(htmlspecialchars($str));
     }
 }
 
 if ( ! function_exists('n'))
 {
-    function n($str)
+    function n(&$str)
     {
-        return number_format($str, 2, '.', ',');
+        return empty($str) ? '' : number_format($str, 2, '.', ',');
+    }
+}
+
+if ( ! function_exists('html'))
+{
+    function html(&$str)
+    {
+        return empty($str) ? '' : $str;
     }
 }
 
@@ -81,6 +89,7 @@ if ( ! function_exists('now_to_mysql'))
         return date('Y-m-d H:i:s');
     }
 }
+
 if ( ! function_exists('mysql_to_fulldate'))
 {
     function mysql_to_fulldate($date)
