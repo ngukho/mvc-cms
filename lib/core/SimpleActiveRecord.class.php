@@ -538,6 +538,22 @@ class SimpleActiveRecord extends SimpleDbAdapterWrapper {
 		return $row['TotalRow'];
 	}
 	
+	public function insert(array $data)
+	{
+		$query = $this->generateInsertQuery($data);
+		$this->runQuery($query);
+		$id = $this->lastInsertId();
+		$this->initFromId($id);
+		return $id;
+	}
+	
+	public function update($condition,array $data) 
+	{
+		$query = $this->generateUpdateQuery($data, $condition);
+		$this->runQuery($query);
+		$this->unserializeFields();
+	}	
+	
 	public function save() {
 		$setQuery = Array();
 		$saveFields = $this->fields;
