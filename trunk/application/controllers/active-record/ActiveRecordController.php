@@ -1,6 +1,6 @@
 <?php
 
-Class ActiveRecord_ActiveRecordController Extends BaseController 
+class ActiveRecord_ActiveRecordController extends BaseController 
 {
 
 	function __construct()
