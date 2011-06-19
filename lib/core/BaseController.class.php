@@ -23,16 +23,12 @@ abstract class BaseController implements IController
 	
 	public function __get($key) 
 	{
-		$data = $this->_registry->{$key};
-		if(!empty($data))
-			return $data;
+		return $this->_registry->{$key};
 	}
 	
 	public function __set($key, $value) 
 	{
-		$data = $this->_registry->{$key};		
-		if(isset($data))
-			$this->_registry->{$key} = $value;
+		$this->_registry->{$key} = $value;
 	}
 
 	protected function forward($route, $args = array()) 
