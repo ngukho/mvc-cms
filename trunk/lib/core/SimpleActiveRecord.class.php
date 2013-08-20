@@ -434,7 +434,8 @@ class SimpleActiveRecord extends SimpleDbAdapterWrapper {
 			
 			$value = $config['refTableClass'];
 			if (strpos($value, ':') !== false) {
-				list($class, $key) = split(':', $value);
+//				Message: Function split() is deprecated		
+				list($class, $key) = explode(':', $value);
 			} else {
 				$key = 'id';
 				$class = $value;
@@ -459,7 +460,8 @@ class SimpleActiveRecord extends SimpleDbAdapterWrapper {
 		if (isset($this->has_many[$name])) {
 			$value = $this->has_many[$name];
 			if (strpos($value, ':') !== false) {
-				list($class, $key) = split(':', $value);
+//				Message: Function split() is deprecated				
+				list($class, $key) = explode(':', $value);
 			} else {
 				$tableName = $this->tableName;
 
