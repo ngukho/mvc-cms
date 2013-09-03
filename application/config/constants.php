@@ -1,6 +1,6 @@
 <?php  
 
-define('_TB_PREFIX', '');
+define('_TB_PREFIX', $config->config_values['database_master']['db_prefix']);
 define('TB_USERS', _TB_PREFIX . 'users');
 define('TB_CONTENTS', _TB_PREFIX . 'tb_content');
 define('TB_CONTENT_CATS', _TB_PREFIX . 'tb_content_cat');
