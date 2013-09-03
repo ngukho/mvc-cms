@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<!--	<base href="http://localhost/mvc/" />-->
+	<title><?php echo $title; ?></title>
+	<link rel="stylesheet" href="<?= __CSS_URL; ?>style.css">
+	<link rel="stylesheet" href="<?= __CSS_URL; ?>paging.css">
+</head>
+
+<body>
+
+<div id="container">
+
+	<div id="top">
+		<h1>Simple MVC Framework Administrator</h1>
+	</div>
+	
+	<div id="leftnav">
+		<?= $current_admin['username'] ?> [ <a href="<?= __BASE_URL ?>dashboard/member/logout"><?= Lang::__LOGOUT; ?></a> ]
+		<ul>
+			<li><a href="<?= __BASE_URL ?>"><?= Lang::__HOME; ?></a></li>
+			<li><a href="<?= __BASE_URL ?>site/home/render"><?= Lang::__RENDER_ACTION; ?></a></li>
+			<li><a href="<?= __BASE_URL ?>pdo-database/pdo-model"><?= Lang::__PDO_MODEL_DATABASE; ?></a></li>
+		</ul>
+	</div>
+	
+	<div id="content">
+		<?php echo $content; ?>
+	</div>
+	
+	<div id="footer">
+		Powered By <a href="mailto:buivantienduc@yahoo.com">Bui Van Tien Duc</a>
+	</div>
+
+</div>
+
+</body>
+</html>
