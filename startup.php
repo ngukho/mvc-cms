@@ -22,6 +22,9 @@
 	require __SITE_PATH . '/lib/core/Model.class.php'; /* Kieu ket noi don gian */
 	require __SITE_PATH . '/lib/core/SimpleActiveRecord.class.php'; /* Ket noi dung ActiveRecord */
 	
+	// Create configure object
+	$config = Config::getInstance();	
+	
 	// Load config files. Global config file
 	require __SITE_PATH . '/application/config/constants.php';
 	
@@ -34,7 +37,6 @@
 	helperLoader($_autoload_helpers);
 	
 	// Load language  
-	$config = Config::getInstance();
 	$lang = $config->config_values['application']['language'];
 	if(!empty($lang))
 	{
