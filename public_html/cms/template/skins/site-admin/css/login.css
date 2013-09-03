@@ -1,0 +1,90 @@
+body{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#fff;
+	background-color:#f4f4f4;
+	padding:0;
+	margin:0;
+	background: #222222;
+	
+}
+
+a{
+	color:#0084ff
+}
+input{
+	font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
+}
+
+h1{
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:38px;
+	font-weight:700;
+	margin:0 ;
+	margin-bottom: 30px;
+	padding-top: 140px;
+	padding-bottom: 20px;
+	text-align:center;
+	text-shadow:1px 1px 1px #fff;
+	display: block;
+	border-bottom: 1px solid #333;
+	background: url(../images/bg-login.gif);
+	}
+	h1 span{ color:#57A000; font-size:30px; font-weight:400;}
+	
+.client{
+	font-size:11px;
+	font-weight:700;
+	color:#aaa;
+	padding:10px 15px;
+	position: absolute;
+}
+	
+#login{
+	width:300px;	
+	height:180px;
+	margin:0px auto;
+	padding:15px;
+	overflow:hidden;
+	}
+	
+	.txf{
+		width:96%;
+		border:1px solid #CCC;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		padding:5px;
+		margin:4px 0 0 0;
+		font-size:16px;
+		font-weight:700;
+		color:#555;
+		}
+		.txf:hover{ border-color:#57A000}
+		.txf:focus{ border-color:#57A000; background-color:#f0f0f0; outline:none}
+	
+	.btn{
+		font-size:13px;
+		font-weight:700;
+		float:right;
+		color:#fff;
+		cursor:pointer;
+		margin:5px 0 0 0;
+		padding:5px 15px;
+		border:none;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		background-color:#57A000;
+		background: -moz-linear-gradient(100% 100% 90deg, #57A000, #57A000);
+		background: -webkit-gradient(linear, left top, left bottom, from(#57A000), to(#57A000));
+		}
+		.btn:hover{
+			background: -moz-linear-gradient(100% 100% 90deg, #006600, #006600);
+			background: -webkit-gradient(linear, left top, left bottom, from(#006600), to(#006600));
+		}
+		
+	.msg-error{
+		font-size:12px;
+		display:block;
+		padding-top:12px;
+		color: red;
+	}

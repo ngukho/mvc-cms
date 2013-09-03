@@ -1,0 +1,92 @@
+body{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#555;
+	background-color:#f4f4f4;
+	padding:0;
+	margin:0;
+}
+
+a{
+	color:#0084ff
+}
+input{
+	font-family:"Lucida Grande",Verdana,Arial,"Bitstream Vera Sans",sans-serif;
+}
+
+h1{
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:38px;
+	font-weight:700;
+	margin:100px auto 10px;
+	text-align:center;
+	text-shadow:1px 1px 1px #fff;
+	}
+	h1 span{ color:#888; font-size:30px; font-weight:400;}
+	
+.client{
+	font-size:11px;
+	font-weight:700;
+	color:#aaa;
+	background-color:#111;
+	background: -moz-linear-gradient(100% 100% 90deg, #111111, #444444);
+	background: -webkit-gradient(linear, left top, right bottom, from(#111111), to(#444444));
+	/*text-transform:uppercase;*/
+	padding:10px 15px;
+}
+	
+#login{
+	width:300px;	
+	height:180px;
+	background-color:#fff;
+	margin:0px auto;
+	padding:15px;
+	overflow:hidden;
+	border:1px solid #ddd;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	-moz-box-shadow: 0px 0px 25px #bbb;
+	-webkit-box-shadow: 0px 0px 25px #bbb;
+	box-shadow: 0px 0px 25px #bbb;
+	}
+	
+	.txf{
+		width:96%;
+		border:1px solid #CCC;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		padding:5px;
+		margin:4px 0 0 0;
+		font-size:16px;
+		font-weight:700;
+		color:#555;
+		}
+		.txf:hover{ border-color:#0084ff}
+		.txf:focus{ border-color:#0084ff; background-color:#f0f0f0; outline:none}
+	
+	.btn{
+		font-size:13px;
+		font-weight:700;
+		float:right;
+		color:#fff;
+		cursor:pointer;
+		margin:5px 0 0 0;
+		padding:5px 15px;
+		border:none;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		background-color:#0042c9;
+		background: -moz-linear-gradient(100% 100% 90deg, #0042c9, #0084ff);
+		background: -webkit-gradient(linear, left top, left bottom, from(#0042c9), to(#0084ff));
+		}
+		.btn:hover{
+			background: -moz-linear-gradient(100% 100% 90deg, #0084ff, #0042c9);
+			background: -webkit-gradient(linear, left top, left bottom, from(#0084ff), to(#0042c9));
+		}
+		
+	.msg-error{
+		font-size:12px;
+		display:block;
+		padding-top:12px;
+		color:#a32828;
+	}
