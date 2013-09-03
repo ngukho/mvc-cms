@@ -15,6 +15,7 @@ class Dashboard_MemberController extends AdminController
 	
 	public function loginAction() 
 	{
+		// user : tienduc - pw : 123456
 		if(!empty($_POST))
 		{
 			$username = $_POST['username'];
