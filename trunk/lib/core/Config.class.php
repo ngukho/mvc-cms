@@ -5,7 +5,8 @@ final class Config
 	/*
 	* @var string $config_file
 	*/
-	private static $config_file = '/config/config.ini';
+// 	private static $config_file = '/config/config.ini';	
+	private static $config_file = '/config.php';
 
 	/*
 	 * @var array $config_values; 
@@ -44,7 +45,9 @@ final class Config
 	 */
 	private function __construct()
 	{
-		$this->config_values = parse_ini_file(__APP_PATH . self::$config_file, true);
+// 		$this->config_values = parse_ini_file(__APP_PATH . self::$config_file, true);
+		$this->config_values = require_once(__CONFIG_PATH . self::$config_file);
+		
 	}
 
 	/**

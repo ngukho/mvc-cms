@@ -5,7 +5,7 @@ margin: 10px auto;
 background-color: #fff;
 color: #333;
 border: 1px solid gray;
-line-height: 130%;
+/* line-height: 130%; */
 }
 
 a {
@@ -34,9 +34,9 @@ margin: 0;
 #leftnav
 {
 float: left;
-width: 160px;
+width: 19%;
 margin: 0;
-padding: 1em;
+padding-left: 15px;
 }
 
 #leftnav ul
@@ -46,7 +46,7 @@ padding: 1em;
 
 #content
 {
-margin-left: 200px;
+margin-left: 20%;
 border-left: 1px solid gray;
 padding: 0.5em;
 min-height: 20em;
