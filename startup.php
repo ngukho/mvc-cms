@@ -7,6 +7,14 @@
         PATH_SEPARATOR . '.'
     );
     
+    require __SITE_PATH . '/lib/core/Config.class.php';
+    
+    // Create configure object
+    $config = Config::getInstance();
+    
+    // Load config files. Global config file
+    require __SITE_PATH . '/application/config/constants.php';    
+    
 	// Load helper file . Master function
 	require __HELPER_PATH . '/common.helper.php';
     
@@ -17,16 +25,9 @@
 	require __SITE_PATH . '/lib/core/Response.class.php';
 	require __SITE_PATH . '/lib/core/View.class.php';
 	require __SITE_PATH . '/lib/core/Registry.class.php';
-	require __SITE_PATH . '/lib/core/Config.class.php';
 	require __SITE_PATH . '/lib/core/MvcException.class.php';
 	require __SITE_PATH . '/lib/core/Model.class.php'; /* Kieu ket noi don gian */
 	require __SITE_PATH . '/lib/core/SimpleActiveRecord.class.php'; /* Ket noi dung ActiveRecord */
-	
-	// Create configure object
-	$config = Config::getInstance();	
-	
-	// Load config files. Global config file
-	require __SITE_PATH . '/application/config/constants.php';
 	
  	/*** registry auto load ***/
 	spl_autoload_register(null, FALSE);
@@ -56,8 +57,9 @@
 		class_alias($lang,'Lang');
 	/* -------------- */
 	}
+	
 	// set the timezone
-//	date_default_timezone_set($config->config_values['application']['timezone']);
+	date_default_timezone_set($config->config_values['application']['timezone']);
 
 	// Set config for ActiveRecord
 	$_db_host = $config->config_values['database_master']['db_hostname'];
