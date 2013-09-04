@@ -11,11 +11,13 @@ try
 	// __BASE_URL : /adv_mvc/admin/
  	define ('__BASE_URL', str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
  	
- 	define ('__ASSET_URL', __SITE_URL.'assets/');
+ 	define ('__ASSET_URL', __BASE_URL);
  	
  	define ('__IMAGE_URL', __ASSET_URL.'images/');
  	define ('__CSS_URL', __ASSET_URL.'css/');
  	define ('__JS_URL', __ASSET_URL.'js/');
+ 	
+ 	define ('__PUBLIC_JS_URL', __SITE_URL.'assets/js/');
  	
 	// the application directory path 
 	define ('__APP_PATH', __SITE_PATH.'/admin');	
@@ -26,8 +28,11 @@ try
 		
 	/*** include the helper ***/
  	$_autoload_helpers = array();
+ 	$config = NULL;
 	
 	require __SITE_PATH . '/startup.php';
+	
+	$config->config_values['application']['default_uri'] = "dashboard/member/login";
 	
  	/*** a new registry object ***/
  	$registry = new Registry();
