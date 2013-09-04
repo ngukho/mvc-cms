@@ -31,8 +31,10 @@ class Dashboard_MemberController extends AdminController
 				redirect('dashboard/panel/show');
 			}
 		}
-		
-		$this->oResponse->setOutput($this->_view->fetch('dashboard/member/login'), $this->oConfig->config_values['application']['config_compression']);
+
+		$this->_layout_path = "admin/layout_login";
+		$this->renderView('dashboard/member/login');
+// 		$this->oResponse->setOutput($this->_view->fetch('dashboard/member/login'), $this->oConfig->config_values['application']['config_compression']);
 	}
 	
 	public function logoutAction()
