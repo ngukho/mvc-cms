@@ -16,10 +16,13 @@ abstract class AdminController extends BaseController
 	{
 	    // These pages get past permission checks
 	    $ignored_pages = array(
+	    		'dashboard/panel/render-left-nav',
+	    		'dashboard/user/list',
 	    		'dashboard/panel/index',
 	    		'dashboard/member/index',
 	    		'dashboard/member/login',
 	    		'dashboard/member/logout'
+	    		
    		);
 
 	    // Check if the current page is to be ignored
