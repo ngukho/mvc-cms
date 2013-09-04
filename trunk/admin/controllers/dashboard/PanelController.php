@@ -9,7 +9,7 @@ class Dashboard_PanelController extends AdminController
 	}
 
 	public function indexAction() 
-	{
+	{		
 		if(!$this->isLogged())
 			redirect('dashboard/member/login');
 			
@@ -22,6 +22,9 @@ class Dashboard_PanelController extends AdminController
 		$this->renderView('dashboard/panel/show');
 	}
 	
-	
+	public function renderLeftNavAction()
+	{
+		return $this->_view->fetch('dashboard/panel/nav');
+	}	
 
 }
