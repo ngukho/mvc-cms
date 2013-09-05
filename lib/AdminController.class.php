@@ -9,7 +9,7 @@ abstract class AdminController extends BaseController
 		parent::__construct();
 		$this->_layout_path = 'admin/default';
 		
-		$this->checkAccess();
+// 		$this->checkAccess();
 	}
 	
 	private function checkAccess()
