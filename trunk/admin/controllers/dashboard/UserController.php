@@ -22,6 +22,12 @@ class Dashboard_UserController extends AdminController
 		$this->renderView('dashboard/user/list');
 	}
 	
+	public function addAction()
+	{
+		$this->_view->title = 'PHP MVC Framework';
+		$this->renderView('dashboard/user/add');
+	}
+	
 	
 
 }
