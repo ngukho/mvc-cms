@@ -1,6 +1,8 @@
 <?php
 try
 {
+
+	
 	// define the site path __SITE_PATH : c:\xampp\htdocs\adv_mvc
 	define ('__SITE_PATH', realpath(dirname(dirname(__FILE__))));
 	
@@ -23,8 +25,35 @@ try
 	define ('__HELPER_PATH', __APP_PATH.'/helpers');
 	define ('__CONFIG_PATH', __APP_PATH.'/config');
 	
+	define ('__UPLOAD_DATA_PATH', realpath(dirname(__FILE__)) . '/data/upload/');
+	
+	
+// 	$str = str_replace($_SERVER['DOCUMENT_ROOT'],"",__UPLOAD_DATA_PATH);
+	
+// 	echo "<pre>";
+// 	print_r($str);
+// 	echo "</pre>";
+	
+// 	echo "<pre>";
+// 	print_r('/mvc-cms/public_html/data/upload/');
+// 	echo "</pre>";
+		
+// 	die();
+	
+// 	echo "<pre>";
+// 	print_r($_SERVER['DOCUMENT_ROOT']);
+// 	echo "</pre>";
+	
+// 	echo "<pre>";
+// 	print_r(__UPLOAD_DATA_PATH);
+// 	echo "</pre>";
+		
+// 	die();	
+	
+	
 	/*** include the helper ***/
  	$_autoload_helpers = array();
+ 	$config = NULL;
 	
 	require __SITE_PATH . '/startup.php';
 	
