@@ -27,7 +27,6 @@ try
 	
 	define ('__UPLOAD_DATA_PATH', realpath(dirname(__FILE__)) . '/data/upload/');
 	
-	
 // 	$str = str_replace($_SERVER['DOCUMENT_ROOT'],"",__UPLOAD_DATA_PATH);
 	
 // 	echo "<pre>";
@@ -68,8 +67,13 @@ try
 	$response = new Response();
 	$response->addHeader('Content-Type: text/html; charset=utf-8');
 	$registry->oResponse = $response; 
- 	
+
+	// Config
 	$registry->oConfig = $config; 
+	
+	// Parameter	
+	$parameter = new Parameter();
+	$registry->oParameter = $parameter;
 	
 	// Initialize the FrontController
 	$front = FrontController::getInstance();
