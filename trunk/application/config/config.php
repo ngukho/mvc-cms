@@ -53,14 +53,17 @@ return array(
 		
 	"mail" => array(
 			"mailer_type" 			=> "system",
-			"admin_email" 			=> "admin@example.com",
-			"admin_name" 			=> "DucBui Admin",
+			"smtp_enable" 			=> YES,
+			"smtp_auth" 			=> YES,						
 			"smtp_server" 			=> "mail.example.com",
 			"smtp_port" 			=> 25,
-			"x_mailer" 				=> "DucBui Mail",
-			"smtp_server" 			=> "mail.example.com",
-			"smtp_port" 			=> 25,
-			"smtp_timeout" 			=> 30
+			"smtp_timeout" 			=> 30,
+			"smtp_usr" 				=> "username",
+			"smtp_psw" 				=> "password",
+			"smtp_from_email" 		=> "admin@example.com",
+			"smtp_from_name" 		=> "Duc Bui",
+			"smtp_reply_email" 		=> "admin@example.com",
+			"smtp_reply_name" 		=> "Duc Bui"			
 	),
 		
 	"logging" => array(
