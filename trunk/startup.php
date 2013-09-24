@@ -27,7 +27,7 @@
 	require __SITE_PATH . '/lib/core/Registry.class.php';
 	require __SITE_PATH . '/lib/core/MvcException.class.php';
 	require __SITE_PATH . '/lib/core/Model.class.php'; /* Kieu ket noi don gian */
-	require __SITE_PATH . '/lib/core/SimpleActiveRecord.class.php'; /* Ket noi dung ActiveRecord */
+// 	require __SITE_PATH . '/lib/core/SimpleActiveRecord.class.php'; /* Ket noi dung ActiveRecord */
 	
  	/*** registry auto load ***/
 	spl_autoload_register(null, FALSE);
@@ -62,13 +62,13 @@
 	date_default_timezone_set($config->config_values['application']['timezone']);
 
 	// Set config for ActiveRecord
-	$_db_host = $config->config_values['database_master']['db_hostname'];
-	$_db_username = $config->config_values['database_master']['db_username'];
-	$_db_password = $config->config_values['database_master']['db_password'];
-	$_db_name = $config->config_values['database_master']['db_name'];
-	$_db_port = $config->config_values['database_master']['db_port'];
-	SimpleDbAdapterWrapper::setAdapter('mysqlAdapter');	
-	SimpleDbAdapterWrapper::connect($_db_host.':'.$_db_port, $_db_username, $_db_password, $_db_name);	
+// 	$_db_host = $config->config_values['database_master']['db_hostname'];
+// 	$_db_username = $config->config_values['database_master']['db_username'];
+// 	$_db_password = $config->config_values['database_master']['db_password'];
+// 	$_db_name = $config->config_values['database_master']['db_name'];
+// 	$_db_port = $config->config_values['database_master']['db_port'];
+// 	SimpleDbAdapterWrapper::setAdapter('mysqlAdapter');	
+// 	SimpleDbAdapterWrapper::connect($_db_host.':'.$_db_port, $_db_username, $_db_password, $_db_name);	
 
 	/*** set error handler level to E_WARNING ***/
 	set_error_handler('_exception_handler', $config->config_values['application']['error_reporting']);
