@@ -1,4 +1,8 @@
 <?php
+
+require_once 'PHPMailer/class.PHPMailer.php';
+
+
 class Email 
 {
 	var $to;
@@ -33,12 +37,12 @@ class Email
 		$mail->Host = $this->smtp ['smtp_server'];
 		$mail->Port = $this->smtp ['smtp_port'];
 		
-		if ($this->smtp ['smtp_enable'] == 'yes') 
+		if ($this->smtp ['smtp_enable']) 
 		{
 			$mail->IsSMTP ();
 			$mail->Username = $this->smtp ['smtp_usr'];
 			$mail->Password = $this->smtp ['smtp_psw'];
-			$mail->SMTPAuth = $this->smtp ['smtp_auth'] == 'yes' ? true : false;
+			$mail->SMTPAuth = $this->smtp ['smtp_auth'] ? true : false;
 		}
 		
 		if ($this->smtp ['smtp_from_email']) 
