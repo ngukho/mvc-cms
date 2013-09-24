@@ -25,6 +25,8 @@ try
 	define ('__LAYOUT_PATH', __SITE_PATH.'/layouts');	
 	define ('__HELPER_PATH', __SITE_PATH.'/application/helpers');
 	define ('__CONFIG_PATH', __SITE_PATH.'/application/config');
+	
+	define ('__UPLOAD_DATA_PATH', realpath(dirname(dirname(__FILE__))) . '/data/upload/');	
 		
 	/*** include the helper ***/
  	$_autoload_helpers = array();
@@ -46,7 +48,12 @@ try
 	$response->addHeader('Content-Type: text/html; charset=utf-8');
 	$registry->oResponse = $response; 
  	
-	$registry->oConfig = $config; 
+	// Config
+	$registry->oConfig = $config;
+
+	// Parameter
+	$parameter = new Parameter();
+	$registry->oParameter = $parameter;	
 	
 	// Initialize the FrontController
 	$front = FrontController::getInstance();
