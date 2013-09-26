@@ -10,6 +10,22 @@ class Base_ConfigureSystem extends Base_BaseModel
 		parent::__construct();
 	}
 	
+	function getGroups($group_id = null)
+	{
+		$str = empty($group_id) ? 1 : ' id = ' . $group_id;
+		$result = $this->query("SELECT * FROM ".TB_CONFIGURE_SYSTEM_GROUP." WHERE $str AND active = 1 ORDER BY order_id DESC");
+	
+		if(!empty($group_id))
+			return $result->fetch();
+		
+		$data = array();
+		while(false != ($row = $result->fetch()))
+		{
+			$data[] = $row;
+		}
+		return $data;
+	}
+	
 	function getAllGroups($group_id = null)
 	{
 		$str = empty($group_id) ? 1 : ' id = ' . $group_id;
@@ -38,6 +54,19 @@ class Base_ConfigureSystem extends Base_BaseModel
 		}
 		return $data;
 	}
+	
+	function getGroupConfigureData($group_id = null)
+	{
+		$str = empty($group_id) ? 1 : ' group_id = ' . $group_id;
+		$result = $this->query("SELECT * FROM ".TB_CONFIGURE_SYSTEM." WHERE $str ORDER BY is_system DESC");
+	
+		$data = array();
+		while(false != ($row = $result->fetch()))
+		{
+			$data[] = $row;
+		}
+		return $data;
+	}	
 
 }
 
