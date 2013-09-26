@@ -22,7 +22,7 @@ return array(
 			"db_username" 			=> "root",
 			"db_password" 			=> "",
 			"db_port" 				=> 3306,
-			"db_prefix" 			=> ""
+			"db_prefix" 			=> "sinlounge__"
 			),
 		
 	"database_slave" => array(
@@ -32,7 +32,7 @@ return array(
 			"db_username" 			=> "root",
 			"db_password" 			=> "",
 			"db_port" 				=> 3306,
-			"db_prefix" 			=> ""
+			"db_prefix" 			=> "sinlounge__"
 	),
 		
 	"session" => array(
