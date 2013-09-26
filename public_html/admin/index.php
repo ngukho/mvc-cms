@@ -31,6 +31,7 @@ try
 		
 	/*** include the helper ***/
  	$_autoload_helpers = array();
+ 	$lang = NULL;
  	$config = NULL;
 	
 	require __SITE_PATH . '/startup.php';
@@ -43,6 +44,11 @@ try
  	// Session
  	$oSession = new Session();
  	$registry->oSession = $oSession;
+ 	
+ 	$configureModule = new Base_ConfigureModule();
+ 	$configure_mod = $configureModule->configure_mod();
+ 	$configure_mod['default_global_lang'] = $lang;
+ 	$registry->oConfigureModule = $configure_mod; 	
  	
 	// Response
 	$response = new Response();
