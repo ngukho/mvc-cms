@@ -12,6 +12,7 @@ try
  	define ('__BASE_URL', str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
  	
  	define ('__ASSET_URL', __BASE_URL);
+ 	define ('__TEMPLATE_URL', __ASSET_URL.'flaty_template/');
  	
  	define ('__IMAGE_URL', __ASSET_URL.'images/');
  	define ('__CSS_URL', __ASSET_URL.'css/');
