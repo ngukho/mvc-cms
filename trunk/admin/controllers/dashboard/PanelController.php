@@ -22,6 +22,36 @@ class Dashboard_PanelController extends AdminController
 		$this->renderView('dashboard/panel/show');
 	}
 	
+	public function formViewAction()
+	{
+		
+		$this->renderView('dashboard/panel/form');
+	}
+
+	public function tableViewAction()
+	{
+	
+		$this->renderView('dashboard/panel/table');
+	}
+
+	public function blankPageAction()
+	{
+		$oConfigSys = new Base_ConfigureSystem();
+		$data = $oConfigSys->getAllGroups();
+		
+		echo "<pre>";
+		print_r($data);
+		echo "</pre>";
+		die();
+		
+		echo "<pre>";
+		print_r($this->oConfigureModule);
+		echo "</pre>";
+		die();
+	
+		$this->renderView('dashboard/panel/blank');
+	}	
+	
 	public function renderLeftNavAction()
 	{
 		return $this->_view->fetch('dashboard/panel/nav');
