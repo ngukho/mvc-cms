@@ -36,20 +36,58 @@ class Dashboard_PanelController extends AdminController
 
 	public function blankPageAction()
 	{
-		$oConfigSys = new Base_ConfigureSystem();
-		$data = $oConfigSys->getAllGroups();
-		
-		echo "<pre>";
-		print_r($data);
-		echo "</pre>";
-		die();
-		
-		echo "<pre>";
-		print_r($this->oConfigureModule);
-		echo "</pre>";
-		die();
-	
 		$this->renderView('dashboard/panel/blank');
+	}
+
+	public function permissionFormAction()
+	{
+		
+// 		http://php.net/manual/en/simplexmlelement.attributes.php
+				
+		echo "<pre>";
+		print_r(__APP_PATH.'/acl.xml');
+		echo "</pre>";
+		
+		$xml = file_get_contents(__APP_PATH.'/acl.xml');
+		$xml_data = simplexml_load_string($xml);
+		
+		echo "<pre>";
+		print_r($xml_data->module[0]->attributes());
+		echo "</pre>";
+
+		echo "<pre>";
+		print_r($xml_data->module[0]->controller[0]->attributes()->name);
+		echo "</pre>";		
+		
+		echo "<pre>";
+		print_r($xml_data->module[0]->controller[1]->attributes());
+		echo "</pre>";
+		
+		echo "<pre>";
+		print_r($xml_data->module[0]->controller[1]);
+		echo "</pre>";		
+				
+		echo "<pre>";
+		print_r($xml_data);
+		echo "</pre>";
+		
+		
+		foreach ($xml_data as $k => $v) {
+			$array[$k] = (string)$v;
+		}
+
+		
+		echo "<pre>";
+		print_r($array);
+		echo "</pre>";
+		die();
+		
+		
+		
+		
+		die();
+		
+		$this->renderView('dashboard/panel/permission');
 	}	
 	
 	public function renderLeftNavAction()
