@@ -73,7 +73,7 @@ try
 	
 	// Parameter	
 	$parameter = new Parameter();
-	$registry->oParameter = $parameter;
+	$registry->oParams = $parameter;
 	
 	// Initialize the FrontController
 	$front = FrontController::getInstance();
