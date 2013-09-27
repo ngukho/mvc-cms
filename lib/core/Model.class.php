@@ -276,6 +276,52 @@ abstract class Model
 		}
 	}
 
+	/**
+	 * @update a table
+	 *
+	 * @access public
+	 *
+	 * @param string $condition
+	 *
+	 */
+	public function updateWithCondition($condition,$values = NULL)
+	{
+		$values = is_null($values) ? $this->values : $values;
+		try
+		{
+			// get the primary key/
+			$pk = $this->_primary_key;
+	
+	
+			$obj = new CachingIterator(new ArrayIterator($values));
+	
+			$sql = "UPDATE {$this->_table_name} SET \n";
+			foreach( $obj as $field=>$val)
+			{
+				$sql .= "$field = :$field";
+				$sql .= $obj->hasNext() ? ',' : '';
+				$sql .= "\n";
+			}
+			$sql .= " WHERE $condition";
+	
+			$stmt = $this->_conn->prepare($sql);
+	
+			// bind the params
+			foreach($values as $k=>$v)
+			{
+				$stmt->bindParam(':'.$k, $v);
+			}
+			// bind the primary key and the id
+			$stmt->execute($values);
+	
+			// return the affected rows
+			return $stmt->rowCount();
+		}
+		catch(Exception $e)
+		{
+			$this->errors[] = $e->getMessage();
+		}
+	}	
 
 	/**
 	 *
