@@ -66,7 +66,13 @@ class Base_ConfigureSystem extends Base_BaseModel
 			$data[] = $row;
 		}
 		return $data;
-	}	
+	}
+
+	function updateConfigSystem($group_id, $code, $value)
+	{
+		$condition = " code = '$code' AND group_id = $group_id ";
+		return $this->updateWithCondition($condition,$value);
+	}
 
 }
 
