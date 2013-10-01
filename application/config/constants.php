@@ -1,7 +1,9 @@
 <?php  
 
 define('_TB_PREFIX', $config->config_values['database_master']['db_prefix']);
-define('TB_USERS', _TB_PREFIX . 'users');
+define('TB_USER', _TB_PREFIX . 'user');
+define('TB_USER_GROUP', _TB_PREFIX . 'user_group');
+
 define('TB_CONTENTS', _TB_PREFIX . 'tb_content');
 define('TB_CONTENT_CATS', _TB_PREFIX . 'tb_content_cat');
 define('TB_PRODUCTS', _TB_PREFIX . 'tb_product');
@@ -34,6 +36,9 @@ define('TB_CONFIGURE_SYSTEM_GROUP', _TB_PREFIX . 'configure_group');
 
 define('TB_MEMBER', _TB_PREFIX . 'member');
 define('TB_MEMBER_DETAIL', _TB_PREFIX . 'member_detail');
+
+
+
 
 define('CONFIG_FACEBOOK_GROUP_ID', '6');
 define('CONFIG_CALTEX2013_GROUP_ID', '7');
