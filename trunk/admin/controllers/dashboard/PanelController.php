@@ -41,57 +41,16 @@ class Dashboard_PanelController extends AdminController
 
 	public function permissionFormAction()
 	{
+		$acls = new Base_ModuleAcls(__APP_PATH.'/config/acls.php');
 		
-// 		http://php.net/manual/en/simplexmlelement.attributes.php
-				
-		echo "<pre>";
-		print_r(__APP_PATH.'/acl.xml');
-		echo "</pre>";
-		
-		$xml = file_get_contents(__APP_PATH.'/acl.xml');
-		$xml_data = simplexml_load_string($xml);
-		
-		echo "<pre>";
-		print_r($xml_data->module[0]->attributes());
-		echo "</pre>";
-
-		echo "<pre>";
-		print_r($xml_data->module[0]->controller[0]->attributes()->name);
-		echo "</pre>";		
-		
-		echo "<pre>";
-		print_r($xml_data->module[0]->controller[1]->attributes());
-		echo "</pre>";
-		
-		echo "<pre>";
-		print_r($xml_data->module[0]->controller[1]);
-		echo "</pre>";		
-				
-		echo "<pre>";
-		print_r($xml_data);
-		echo "</pre>";
-		
-		
-		foreach ($xml_data as $k => $v) {
-			$array[$k] = (string)$v;
-		}
-
-		
-		echo "<pre>";
-		print_r($array);
-		echo "</pre>";
-		die();
-		
-		
-		
-		
-		die();
 		
 		$this->renderView('dashboard/panel/permission');
 	}	
 	
 	public function renderLeftNavAction()
 	{
+		$menuInfo = require_once(__APP_PATH.'/config/left_menus.php');
+		$this->_view->menuInfo = $menuInfo;
 		return $this->_view->fetch('dashboard/panel/nav');
 	}	
 
