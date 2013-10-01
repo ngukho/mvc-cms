@@ -1,0 +1,142 @@
+
+                <!-- BEGIN Page Title -->
+                <div class="page-title">
+                    <div>
+                        <h1><i class="icon-file-alt"></i> Group</h1>
+                        <h4>Group Permission !</h4>
+                    </div>
+                </div>
+                <!-- END Page Title -->
+
+                <!-- BEGIN Main Content -->
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="box">
+                            <div class="box-title">
+                                <h3><i class="icon-file"></i> <?php echo $box_title; ?></h3>
+                                <div class="box-tool">
+                                    <a data-action="collapse" href="#"><i class="icon-chevron-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="box-content">
+							    <ul data-tabs="tabs" class="nav nav-tabs" id="tabs">
+							    	<li class="active">
+							    		<a data-toggle="tab" href="#tab_id_1">
+							    			<i class="icon-cogs"></i>&nbsp;Group Data							    		</a>
+							    	</li>
+							    	<li>
+							    		<a data-toggle="tab" href="#tab_id_2">
+							    			<i class="icon-cogs"></i>&nbsp;Permission Data							    		</a>
+							    	</li>
+							    </ul>
+							    
+							    
+<form method="POST" class="form-horizontal" action="<?php echo $link_url; ?>">
+							    
+							    <div style="overflow: hidden;" class="tab-content" id="my-tab-content">
+							    															    
+							        <div id="tab_id_1" class="tab-pane active">
+							        
+
+	                                    <div class="control-group">
+	                                        <label class="control-label" for="textfield4">Group Name</label>
+	                                        <div class="controls">
+	                                            <input type="text" class="input-xxlarge" value="<?php echo h($rowGroup["group_name"]); ?>" id="group_name" name="group_name">
+	                                        </div>
+	                                    </div>
+	                                    
+									    
+	                                    <div class="control-group">
+	                                        <label class="control-label" for="textfield4">Level</label>
+	                                        <div class="controls">
+	                                            <input type="text" class="input-small" value="<?php echo h($rowGroup["level"]); ?>" id="level" name="level">
+	                                            
+	<!-- 											<blockquote> -->
+	<!-- 			                                    <h6>The website title </h6> -->
+	<!-- 			                                </blockquote> -->
+				                                			                                                                            
+	                                        </div>
+	                                    </div>
+	                                    
+										<div class="control-group">
+	                                       <label class="control-label"></label>
+	                                       <div class="controls">
+	                                          <label class="checkbox">
+	                                            <input type="checkbox" id="is_admin" name="is_admin" value="1" <?php echo $rowGroup["is_admin"] == 1 ? "checked" : ""; ?>> Is Administrator
+	                                          </label>
+	                                       </div>
+	                                    </div>                                    
+	                                    
+	                                    <div class="form-actions">
+	                                       <button class="btn btn-primary" type="submit"><i class="icon-save"></i> Save</button>
+	                                    </div>
+                                    							            
+							            
+							        </div>
+							        							    							    
+									<div id="tab_id_2" class="tab-pane">
+							        
+							        
+								<div id="accordion2" class="accordion accordion-separate">
+                                    
+<?php foreach ($arrAcls as $module => $rowModules) : ?>                                    
+                                    
+                                    <div class="accordion-group">
+                                        <div class="accordion-heading">
+                                            <a href="#collapse_<?php echo $module; ?>" data-parent="#accordion2" data-toggle="collapse" class="accordion-toggle">
+                                                <?php echo h($module); ?>
+                                            </a>
+                                        </div>
+                                        <div class="accordion-body in collapse" id="collapse_<?php echo $module; ?>" style="height: auto;">
+                                            <div class="accordion-inner">
+											<dl>
+											
+										<?php foreach ($rowModules as $controler => $rowController) : ?>											
+	                                            <dt><?php echo h($controler); ?></dt>
+	                                            <dd>
+	                                            <?php foreach ($rowController as $action) :
+	                                            			$key = $module.'_'.$controler.'_'.$action;
+	                                            			$checked = "";
+	                                            			if(!empty($arrAclResources[$key])) 
+	                                            				$checked = "checked";
+	                                            ?>
+	                                            
+	                                            	<label class="checkbox inline">
+	                                            		<input type="checkbox" name="permission[<?php echo $key; ?>]" value="1" <?php echo $checked; ?>> 
+	                                            		<?php echo h($action); ?>
+	                                          		</label>
+	                                          	
+	                                          	<?php endforeach; ?>
+	                                          	</dd>
+										<?php endforeach; ?>	                                          	
+                                          	
+                                          	</dl>
+                                            </div>
+                                        </div>
+                                    </div>
+<?php endforeach; ?>                                    
+                                    
+                                    
+                                </div>							        
+                                    							            
+							            
+							        </div>							        
+
+							    </div>
+
+</form>
+							    
+ 								<script type="text/javascript"> 								
+								    jQuery(document).ready(function ($) {
+								        $('#tabs').tab();
+								    });
+								</script>                               
+                            
+                            </div>                            
+                                
+                                
+                        </div>
+                    </div>
+                </div>
+                <!-- END Main Content -->
+                
