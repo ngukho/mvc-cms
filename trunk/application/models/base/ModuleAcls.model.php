@@ -12,7 +12,7 @@ class Base_ModuleAcls {
 	/**
 	 * the parsed site setting file
 	 *
-	 * @var simpleXml object
+	 * @var Array object
 	 */
 	protected $_acls;
 	
@@ -25,7 +25,6 @@ class Base_ModuleAcls {
 	 */
 	public function __construct($acls_file_path = null)
 	{
-
 		$this->_acls = require_once($acls_file_path);
 	}
 	
@@ -44,6 +43,11 @@ class Base_ModuleAcls {
 // 		}
 // 		return $obj;
 	}
+	
+	public function getModuleAcls()
+	{
+		return $this->_acls;
+	}	
 	
 	
 }
