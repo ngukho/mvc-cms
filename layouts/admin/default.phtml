@@ -25,7 +25,11 @@
         <link rel="stylesheet" href="<?php echo __TEMPLATE_URL; ?>css/flaty-responsive.css">
 
         <link rel="shortcut icon" href="<?php echo __TEMPLATE_URL; ?>img/favicon.html">
-
+        
+        <!--basic scripts-->
+        <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>-->
+        <script>window.jQuery || document.write('<script src="<?php echo __TEMPLATE_URL; ?>assets/jquery/jquery-1.10.1.min.js"><\/script>')</script>
+        
         <script src="<?php echo __TEMPLATE_URL; ?>assets/modernizr/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
@@ -209,6 +213,44 @@
 					<?php echo $main_content; ?>
                 <!-- END Main Content -->
                 
+                <!-- BEGIN Delete Modal Content -->
+				<div class="modal small hide fade" id="myDeleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+						<h3 id="myModalLabel">Delete Confirmation</h3>
+					</div>
+					<div class="modal-body">
+						<p class="error-text">
+							<i class="icon-warning-sign modal-icon"></i> Are you sure you want to delete row ?
+						</p>
+					</div>
+					<div class="modal-footer">
+						<a id="modal-form-cancel" class="btn" data-dismiss="modal" aria-hidden="true" href="#">Cancel</a>
+						<a id="modal-form-delete" class="btn btn-danger" data-dismiss="modal" href="#">Delete</a>										
+					</div>
+				</div>
+	
+				<script type="text/javascript">
+					function confimDelete(url)
+					{
+						$('#myDeleteConfirmModal').modal('toggle');
+		//				$('#modal-form-delete').attr("href",url);
+						//console.debug(url);
+						$('#modal-form-delete').bind('click', function(e){
+							
+							window.location.href = url;
+							
+						    // We don't want this to act as a link so cancel the link action
+						    //e.preventDefault();
+		
+						    // Find form and submit it
+						    //$('#modal-form').submit();
+						  });
+						
+					}
+				</script>
+				<!-- END Delete Modal Content -->					
+                
                 <footer>
                     <p>2013 © FLATY Admin Template.</p>
                 </footer>
@@ -220,10 +262,6 @@
         </div>
         <!-- END Container -->
 
-
-        <!--basic scripts-->
-        <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>-->
-        <script>window.jQuery || document.write('<script src="<?php echo __TEMPLATE_URL; ?>assets/jquery/jquery-1.10.1.min.js"><\/script>')</script>
         <script src="<?php echo __TEMPLATE_URL; ?>assets/bootstrap/bootstrap.min.js"></script>
         <script src="<?php echo __TEMPLATE_URL; ?>assets/nicescroll/jquery.nicescroll.min.js"></script>
 
