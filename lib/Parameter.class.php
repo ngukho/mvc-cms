@@ -40,15 +40,19 @@ class Parameter
 		return $data;
 	}	
 	
-	public function getPost($name,$default_value)
+	public function varPost($name,$default_value)
 	{
-		if (!isset($this->get[$name]))
+		if (!isset($this->post[$name]))
 		{
 			return $default_value;
 		}
-		return $this->get[$name];
+		return $this->post[$name];
 	}
 	
+	public function isPost()
+	{
+		return !empty($_POST);
+	}
 }
 
 ?>
